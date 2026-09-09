@@ -1,622 +1,235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mesin Kapal dan Getaran | Teknik Sistem Perkapalan ITS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#050505;--accent:#FF4500;--card:#111;--warm:#ffe0e0;--border:rgba(255,255,255,.06)}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;margin:0;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent);color:#fff}
-.font-serif{font-family:'Playfair Display',serif}
-.noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
-.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.22,1,.36,1)}
-.reveal.active{opacity:1;transform:translateY(0)}
-@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-@keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(15px)}}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
-.float-up{animation:floatUp 12s ease-in-out infinite}
-.float-down{animation:floatDown 14s ease-in-out infinite}
-a{color:inherit;text-decoration:none}
-.dot{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 8px rgba(34,197,94,.5)}
-.topic-row{display:grid;grid-template-columns:28px 1fr;gap:2px 10px;padding:13px 14px;border:1px solid rgba(255,255,255,.05);border-radius:9px;background:rgba(255,255,255,.02)}
-
-/* Technical lab UI override */
-:root{--bg:#0b1117;--accent:#e45b35;--card:#111a22;--warm:#edf3f5;--line:rgba(180,208,218,.14)}
-body{background:var(--bg);color:#edf3f5}
-body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;background:linear-gradient(115deg,rgba(228,91,53,.07),transparent 38%),linear-gradient(300deg,rgba(38,104,131,.08),transparent 45%)}
-.font-serif{font-family:'Inter',sans-serif}
-#nav{padding:14px 0!important;background:rgba(11,17,23,.7)}
-#nav>div{max-width:1180px!important}
-#navLinks a{color:#a8b6bd!important;text-transform:uppercase;font-size:10px!important;letter-spacing:.1em}
-#navLinks a:hover{color:#fff!important}
-#nav>div>div:first-child>div:first-child{border-radius:4px!important;background:var(--accent)!important;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
-section{scroll-margin-top:72px}
-section:first-of-type{background:radial-gradient(ellipse at 50% 35%,rgba(31,80,99,.22),transparent 55%)}
-section:first-of-type h1{font-family:'Inter',sans-serif!important;font-weight:600!important;letter-spacing:-.055em!important;color:#f1f5f6!important;mix-blend-mode:normal!important;text-shadow:none!important}
-section:first-of-type h1 span{color:var(--accent)!important}
-section:first-of-type p{color:#9eabb2!important;mix-blend-mode:normal!important;text-shadow:none!important}
-section:first-of-type [style*="border-radius:999px"]{border-radius:4px!important;text-transform:uppercase;letter-spacing:.12em;font-size:10px!important}
-section:first-of-type [style*="background:var(--accent)"]{border-radius:4px!important}
-#about,#research,#facilities,#team,#contact{border-top:1px solid var(--line)}
-#about h2,#research h2,#facilities h2,#team h2,#contact h2{font-family:'Inter',sans-serif!important;font-weight:600!important;letter-spacing:-.04em}
-#about p,#research p,#facilities p,#team p,#contact p{color:#96a5ac!important}
-#about>div>div:nth-child(2)>div:nth-child(2)>div,#research .topic-row{background:rgba(255,255,255,.025)!important;border-color:var(--line)!important;border-radius:6px!important}
-#research img{border:1px solid var(--line);filter:saturate(.8)}
-#research [style*="border-radius:16px"],#facilities [style*="border-radius:20px"],#team [style*="border-radius:16px"],#contact [style*="border-radius:20px"]{border-radius:6px!important;border-color:var(--line)!important}
-#facilities [style*="background:var(--accent)"]{background:linear-gradient(145deg,#e45b35,#b93f25)!important}
-#facilities [style*="background:var(--accent)"] h3{font-family:'Inter',sans-serif!important;font-weight:600}
-#team>div>div:nth-child(2){grid-template-columns:repeat(5,1fr)!important}
-#contact{background:linear-gradient(90deg,rgba(228,91,53,.04),transparent)}
-footer{max-width:1180px!important;border-color:var(--line)!important}
-.topic-row b{font-weight:600!important}.topic-row small{color:#84959d!important}
-@media(max-width:760px){#team>div>div:nth-child(2){grid-template-columns:repeat(2,1fr)!important}}
-@media(max-width:480px){#team>div>div:nth-child(2){grid-template-columns:1fr!important}}
-
-.topic-row span{grid-row:span 2;color:var(--accent);font:11px monospace;padding-top:2px}.topic-row b{font-size:13px;font-weight:500}.topic-row small{font-size:11px;color:rgba(255,255,255,.35)}
-@media(max-width:760px){#navLinks{gap:12px}#navLinks a:nth-child(3),#navLinks a:nth-child(4){display:none}section{padding-left:20px!important;padding-right:20px!important}section>div>div[style*="grid-template-columns:1fr 1fr"],section>div>div[style*="grid-template-columns:repeat(3"],section>div>div[style*="grid-template-columns:repeat(4"]{grid-template-columns:1fr!important}.reveal[style*="margin-top:60px"]{gap:20px!important}}
-@media(max-width:480px){#navLinks a{display:none!important}#navLinks span{display:none!important}footer{flex-direction:column;gap:16px;text-align:center}}
-
-/* Premium line icon system — no emoji glyphs */
-.premium-icon{width:17px;height:17px;display:block;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;color:currentColor}
-#about .premium-icon,#research .premium-icon,#facilities .premium-icon,#contact .premium-icon{color:#111}
-#contact .premium-icon{color:#e45b35}
-
-/* Superdesign-inspired interface: quiet canvas, sharp typography, discovery-first */
-:root{--bg:#fcfcfb;--accent:#111;--card:#fff;--warm:#111;--line:#e8e8e5;--muted:#737373}
-*{box-sizing:border-box}
-body{background:var(--bg);color:#111;font-family:'Inter',system-ui,sans-serif}
-body:after{display:none}.noise{display:none}
-#nav{position:fixed!important;padding:0!important;height:58px;background:rgba(252,252,251,.86)!important;border-bottom:1px solid rgba(17,17,17,.08);backdrop-filter:blur(18px)!important}
-#nav>div{height:100%;max-width:1180px!important}
-#nav>div>div:first-child>div:first-child{width:25px!important;height:25px!important;border-radius:7px!important;background:#111!important;color:#fff!important;box-shadow:none!important;font-size:11px!important}
-#nav>div>div:first-child>div:nth-child(2)>div:first-child{font-size:13px!important;color:#111!important}
-#nav>div>div:first-child>div:nth-child(2)>div:nth-child(2){font-size:9px!important;color:#969696!important}
-#navLinks{gap:5px!important}
-#navLinks a{color:#777!important;text-transform:none!important;letter-spacing:0!important;font-size:12px!important;padding:7px 11px;border-radius:999px;transition:all .2s}
-#navLinks a:hover{background:#f0f0ed;color:#111!important}
-#navLinks span{display:none!important}
-section{scroll-margin-top:70px}
-section:first-of-type{min-height:720px!important;padding:150px 32px 90px!important;background:var(--bg)!important}
-section:first-of-type>div:first-child,section:first-of-type>div:nth-child(2){display:none}
-section:first-of-type>div:last-child{max-width:880px!important}
-section:first-of-type h1{font-family:'Inter',sans-serif!important;font-size:clamp(45px,8vw,88px)!important;font-weight:600!important;line-height:.98!important;letter-spacing:-.075em!important;color:#111!important;text-shadow:none!important;mix-blend-mode:normal!important}
-section:first-of-type h1 span{color:#111!important;font-style:normal!important;position:relative}
-section:first-of-type h1 span:after{content:'';position:absolute;left:4px;right:4px;bottom:-3px;height:5px;background:#d7ef58;border-radius:999px;z-index:-1}
-section:first-of-type p{max-width:500px!important;margin-top:32px!important;color:#777!important;font-size:16px!important;line-height:1.65!important;mix-blend-mode:normal!important;text-shadow:none!important}
-section:first-of-type [style*="background:var(--accent)"]{background:#111!important;color:#fff!important;border-radius:9px!important;box-shadow:none!important;padding:12px 20px!important}
-section:first-of-type [style*="border-radius:999px"]{border-radius:9px!important;border-color:#dededb!important;background:#fff!important;color:#555!important;letter-spacing:0!important;text-transform:none!important;font-size:13px!important;padding:12px 20px!important}
-section:first-of-type [style*="margin-top:60px"]{display:none!important}
-#about,#research,#facilities,#team,#contact{border-top:0!important;background:#fff;padding:100px 32px!important}
-#about>div,#research>div,#facilities>div,#team>div,#contact>div{max-width:1120px!important}
-#about{background:#f5f5f2!important}
-#about h2,#research h2,#facilities h2,#team h2,#contact h2{font-family:'Inter',sans-serif!important;color:#111!important;font-weight:600!important;letter-spacing:-.055em!important}
-#about p,#research p,#facilities p,#team p,#contact p{color:#6f6f6b!important}
-#about>div>div:first-child{text-align:left!important;margin-bottom:46px!important}
-#about>div>div:first-child h2{max-width:620px!important;margin:0!important;font-size:clamp(30px,5vw,56px)!important}
-#about>div>div:nth-child(2){grid-template-columns:1.05fr .95fr!important;gap:80px!important}
-#about>div>div:nth-child(2)>div:nth-child(2)>div{background:#fff!important;border:1px solid #e4e4df!important;border-radius:16px!important;box-shadow:0 10px 30px rgba(0,0,0,.03)}
-#about>div>div:nth-child(2)>div:nth-child(2)>div>div:first-child{background:#f1f1ed!important;color:#111!important}
-#research{background:#fff!important}
-#research>div>div:first-child{text-align:left!important;margin-bottom:42px!important}
-#research>div>div:first-child h2{font-size:clamp(30px,5vw,58px)!important}
-#research>div>div:first-child p{margin-left:0!important}
-#research>div>div:nth-child(2){grid-template-columns:1.12fr .88fr!important;gap:18px!important}
-#research>div>div:nth-child(2)>div{background:#fafaf8!important;border:1px solid #e5e5e1!important;border-radius:16px!important;padding:24px!important}
-#research>div>div:nth-child(2)>div:first-child{background:#f2f2ee!important}
-#research img{border:1px solid #deded9!important;border-radius:10px!important;background:#fff!important;filter:none!important}
-.topic-row{background:#fff!important;border-color:#e7e7e3!important;border-radius:9px!important}
-.topic-row span{color:#9e9e98!important}
-.topic-row b{color:#222!important}.topic-row small{color:#92928c!important}
-#research>div>div:nth-child(3){grid-template-columns:repeat(3,1fr)!important;gap:14px!important}
-#research>div>div:nth-child(3)>div{background:#fff!important;border:1px solid #e7e7e3!important;border-radius:14px!important;box-shadow:none!important}
-#research>div>div:nth-child(3)>div:hover{border-color:#111!important;transform:translateY(-3px)!important}
-#research>div>div:nth-child(3)>div>div:first-child{background:#f0f0ec!important;color:#111!important;border-radius:9px!important}
-#facilities{background:#f5f5f2!important}
-#facilities>div>div:first-child{text-align:left!important;margin-bottom:42px!important}
-#facilities>div>div:first-child h2{font-size:clamp(30px,5vw,58px)!important}
-#facilities>div>div:nth-child(2){grid-template-columns:repeat(2,1fr)!important;gap:14px!important}
-#facilities>div>div:nth-child(2)>div{background:#fff!important;border:1px solid #e5e5e1!important;border-radius:14px!important;aspect-ratio:auto!important;min-height:230px;box-shadow:none!important}
-#facilities>div>div:nth-child(2)>div:first-child{background:#dff2ed!important}
-#facilities>div>div:nth-child(2)>div:first-child h3{color:#111!important}
-#facilities>div>div:nth-child(2)>div:first-child p{color:#596b67!important}
-#facilities>div>div:nth-child(2)>div>div:first-child>div:first-child{background:#fff!important;color:#111!important}
-#team{background:#fff!important}
-#team>div>div:first-child{text-align:left!important;margin-bottom:38px!important}
-#team>div>div:first-child h2{font-size:clamp(30px,5vw,58px)!important}
-#team>div>div:nth-child(2){grid-template-columns:repeat(5,1fr)!important;gap:10px!important}
-#team>div>div:nth-child(2)>div{background:#fafaf8!important;border:1px solid #e7e7e3!important;border-radius:14px!important;padding:22px 14px!important}
-#team>div>div:nth-child(2)>div>div:first-child{width:52px!important;height:52px!important;background:#ecece7!important;color:#111!important;font-family:'Inter',sans-serif!important}
-#team>div>div:nth-child(2)>div>div:nth-child(2){color:#222!important;font-size:12px!important}
-#team>div>div:nth-child(2)>div>div:nth-child(3){color:#888!important}
-#contact{padding-top:80px!important;padding-bottom:80px!important;background:#111!important}
-#contact>div{max-width:720px!important}
-#contact>div>div{background:#191919!important;border:1px solid #2b2b2b!important;border-radius:16px!important;box-shadow:none!important}
-#contact h2{color:#fff!important}.contact p,#contact p{color:#9f9f99!important}
-#contact>div>div>div>div>div{background:#222!important;border-color:#333!important}
-#contact>div>div>div>div>div>div:first-child{background:#2c2c2c!important}
-#contact>div>div>div>div>div>div:nth-child(2) div:first-child{color:#888!important}
-#contact>div>div>div>div>div>div:nth-child(2) div:nth-child(2){color:#fff!important}
-footer{max-width:none!important;background:#111!important;border-top:1px solid #292929!important;color:#888!important}
-footer span,footer a{color:#777!important}
-@media(max-width:760px){#about>div>div:nth-child(2),#research>div>div:nth-child(2){grid-template-columns:1fr!important;gap:24px!important}#research>div>div:nth-child(3){grid-template-columns:1fr!important}#team>div>div:nth-child(2){grid-template-columns:repeat(2,1fr)!important}#facilities>div>div:nth-child(2){grid-template-columns:1fr!important}}
-@media(max-width:480px){#navLinks a{display:none!important}#team>div>div:nth-child(2){grid-template-columns:1fr!important}}
-
-/* Final live composition: compact premium editorial rhythm */
-:root{--live-bg:#0a0c0e;--live-panel:#101317;--live-ink:#ede7dc;--live-muted:#9ea5a8;--live-amber:#e8913c;--live-teal:#2e6b72;--live-rule:rgba(237,231,220,.13)}
-body{background:var(--live-bg)!important;color:var(--live-ink)!important}
-body:before{content:'';position:fixed;inset:0;z-index:-2;background:url('assets/mpp-emblem.jpg') 82% 10%/min(620px,52vw) auto no-repeat;opacity:.045;filter:grayscale(1) contrast(.8);pointer-events:none}
-body:after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,12,14,.98),rgba(10,12,14,.82) 58%,rgba(10,12,14,.7));pointer-events:none}
-#nav{height:58px!important;background:rgba(10,12,14,.78)!important;border-bottom:1px solid var(--live-rule)!important}
-section:first-of-type{min-height:88vh!important;padding:112px 32px 64px!important;background:transparent!important}
-section:first-of-type>div:last-child{max-width:960px!important}
-section:first-of-type h1{font-size:clamp(42px,7vw,78px)!important;letter-spacing:-.065em!important}
-section:first-of-type p{max-width:570px!important;margin-top:22px!important;font-size:15px!important}
-section:first-of-type [style*="margin-top:60px"]{display:none!important}
-#about,#research,#facilities,#team,#contact{padding:72px 32px!important;border-top:1px solid var(--live-rule)!important;background:transparent!important}
-#about>div>div:first-child,#research>div>div:first-child,#facilities>div>div:first-child,#team>div>div:first-child{margin-bottom:28px!important}
-#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:24px!important}
-#research>div>div:nth-child(3){margin-top:24px!important;gap:12px!important}
-#facilities>div>div:nth-child(2){gap:12px!important}
-#team>div>div:nth-child(2){gap:8px!important}
-#about>div>div:nth-child(2)>div:nth-child(2)>div,#research>div>div:nth-child(2)>div,#research>div>div:nth-child(3)>div,#facilities>div>div:nth-child(2)>div,#team>div>div:nth-child(2)>div{background:rgba(16,19,23,.86)!important;border-color:var(--live-rule)!important;box-shadow:none!important}
-#research img{max-height:240px!important}
-#facilities>div>div:nth-child(2)>div{min-height:190px!important}
-#contact{padding-top:64px!important;padding-bottom:64px!important}
-footer{background:var(--live-bg)!important;border-color:var(--live-rule)!important}
-@media(max-width:760px){section:first-of-type{min-height:78vh!important;padding:100px 20px 48px!important}#about,#research,#facilities,#team,#contact{padding:56px 20px!important}#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:18px!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="view-transition" content="same-origin">
+  <title>Laboratorium Mesin Kapal dan Getaran | DTSP ITS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config={theme:{extend:{fontFamily:{syne:['Syne','sans-serif'],sora:['Sora','sans-serif']},colors:{ground:'#0A0C0E',panel:'#101317',bone:'#EDE7DC',secondary:'#9EA5A8',muted:'#6C7378',amber:'#E8913C',teal:'#2E6B72'}}}}
+  </script>
+  <style>
+    :root{--portal:0;--spread:0;--title-scale:1}
+    html{scroll-behavior:smooth;background:#0A0C0E}
+    ::selection{background:#E8913C;color:#0A0C0E}
+    @view-transition{navigation:auto}
+    ::view-transition-old(root),::view-transition-new(root){animation-duration:.4s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+    .portal-panel-left{transform:translateX(calc(var(--portal) * -48vw))}
+    .portal-panel-right{transform:translateX(calc(var(--portal) * 48vw))}
+    .word-left{transform:translateX(calc(var(--spread) * -9vw)) scale(var(--title-scale));letter-spacing:calc(-.075em + var(--spread) * .055em)}
+    .word-right{transform:translateX(calc(var(--spread) * 9vw)) scale(var(--title-scale));letter-spacing:calc(-.075em + var(--spread) * .055em)}
+    .hero-emblem{transform:translate(calc(var(--portal) * 2.5vw),calc(var(--portal) * -2vh)) scale(calc(1 + var(--portal) * .08))}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.active{opacity:1;transform:none}
+    .deck-card{touch-action:pan-y;user-select:none;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+    .deck-card.dragging{transition:none;cursor:grabbing}
+    .outline-number{-webkit-text-stroke:1px rgba(237,231,220,.28);color:transparent}
+    @media(max-width:767px){.portal-panel-left{transform:translateX(calc(var(--portal) * -54vw))}.portal-panel-right{transform:translateX(calc(var(--portal) * 54vw))}.word-left{transform:translateX(calc(var(--spread) * -4vw)) scale(var(--title-scale))}.word-right{transform:translateX(calc(var(--spread) * 4vw)) scale(var(--title-scale))}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.portal-panel-left,.portal-panel-right,.word-left,.word-right,.hero-emblem,.reveal,.deck-card{transition:none!important}.reveal{opacity:1;transform:none}}
+  </style>
 </head>
 <body>
-<style>
-/* Local premium correction: tighter editorial rhythm and real emblem watermark */
-:root{--mpp-ground:#0a0c0e;--mpp-panel:#101317;--mpp-ink:#ede7dc;--mpp-muted:#9ea5a8;--mpp-amber:#e8913c;--mpp-teal:#2e6b72;--mpp-rule:rgba(237,231,220,.13)}
-body{background:var(--mpp-ground)!important;color:var(--mpp-ink)!important}
-body:before{content:'';position:fixed;inset:0;z-index:-2;background-image:url('assets/mpp-emblem.jpg');background-repeat:no-repeat;background-position:78% 16%;background-size:min(720px,58vw);opacity:.055;filter:grayscale(.72) contrast(.82);pointer-events:none}
-body:after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,12,14,.98) 0%,rgba(10,12,14,.88) 46%,rgba(10,12,14,.7) 100%);pointer-events:none}
-#nav{background:rgba(10,12,14,.78)!important;border-color:var(--mpp-rule)!important}
-#about,#research,#facilities,#team,#contact{padding-top:clamp(64px,8vw,112px)!important;padding-bottom:clamp(64px,8vw,112px)!important;background:transparent!important;border-top:1px solid var(--mpp-rule)!important}
-#about>div>div:first-child,#research>div>div:first-child,#facilities>div>div:first-child,#team>div>div:first-child{margin-bottom:32px!important}
-#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:28px!important}
-#research>div>div:nth-child(3){margin-top:28px!important}
-#facilities>div>div:nth-child(2){gap:14px!important}
-#team>div>div:nth-child(2){gap:10px!important}
-.premium-icon{filter:drop-shadow(0 0 4px rgba(228,91,53,.14))}
-</style>
-<div class="noise"></div>
-
-<!-- NAV -->
-<nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:100;transition:all .5s;padding:20px 0">
-<div style="max-width:1100px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between">
-  <div style="display:flex;align-items:center;gap:12px">
-    <div style="width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">M</div>
-    <div>
-      <div style="font-size:14px;font-weight:600;letter-spacing:-.02em">Lab MPP</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.03em">Mesin Kapal dan Getaran</div>
-    </div>
-  </div>
-  <div style="display:flex;gap:28px;align-items:center" id="navLinks">
-    <a href="#about" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Tentang</a>
-    <a href="#research" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Riset</a>
-    <a href="#facilities" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Fasilitas</a>
-    <a href="#team" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Tim</a>
-    <a href="#contact" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Kontak</a>
-    <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.3)"><span class="dot"></span> Active</span>
-  </div>
-</div>
-</nav>
-
-<!-- HERO -->
-<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 32px 80px">
-  <div style="position:absolute;inset:0;z-index:0;pointer-events:none">
-    <div style="position:absolute;top:-20%;left:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.12),transparent 70%);filter:blur(80px)"></div>
-    <div style="position:absolute;bottom:-20%;right:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.06),transparent 70%);filter:blur(60px)"></div>
-    <div style="position:absolute;inset:0;background:linear-gradient(transparent 60%,var(--bg))"></div>
-  </div>
-  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.04;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px"></div>
-  <div class="float-up" style="position:absolute;left:5%;top:18%;width:120px;height:160px;border-radius:12px;border:1px solid rgba(255,69,0,.15);background:rgba(255,69,0,.03);z-index:1"></div>
-  <div class="float-down" style="position:absolute;right:8%;bottom:22%;width:100px;height:140px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);z-index:1"></div>
-
-  <div style="position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto">
-    <div class="reveal">
-      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:28px">
-        <span class="dot"></span> Departemen Teknik Sistem Perkapalan — FTK ITS
+  <div class="min-h-screen overflow-x-hidden bg-ground font-sora text-bone antialiased">
+    <nav class="fixed inset-x-0 top-0 z-50 h-[72px] border-b border-[rgba(237,231,220,.13)] bg-ground">
+      <div class="mx-auto flex h-full max-w-[1320px] items-center justify-between px-5 md:px-10">
+        <a id="nav-brand-link" href="#home" class="flex items-center gap-3">
+          <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/b5979122-8d87-45df-9d7e-1b4552139811/brand-assets/lab-mpp-identity-marine-power-propulsion-emblem/img_12981f16bb48.jpg" alt="Emblem resmi Marine Power Propulsion FTK-ITS" class="h-10 w-10 rounded-full border border-[rgba(237,231,220,.2)] object-cover">
+          <span><span class="block font-syne text-[13px] font-bold uppercase tracking-[.08em]">Lab MPP</span><span class="block text-[9px] uppercase tracking-[.13em] text-secondary">FTK — ITS</span></span>
+        </a>
+        <div class="hidden items-center gap-7 text-[10px] font-medium uppercase tracking-[.14em] text-secondary md:flex">
+          <a id="nav-statement-link" href="#statement" class="transition-colors hover:text-bone">Tentang</a>
+          <a id="nav-research-link" href="#research" class="transition-colors hover:text-bone">Riset</a>
+          <a id="nav-roster-link" href="#roster" class="transition-colors hover:text-bone">Tim</a>
+          <a id="nav-information-link" href="#information" class="transition-colors hover:text-bone">Informasi</a>
+          <a id="nav-contact-link" href="#contact" class="border border-[rgba(237,231,220,.22)] px-4 py-2 text-bone transition-colors hover:border-amber hover:text-amber">Kontak</a>
+        </div>
+        <a id="nav-mobile-contact-link" href="#contact" class="border border-[rgba(237,231,220,.22)] px-3 py-2 text-[9px] uppercase tracking-[.14em] md:hidden">Kontak</a>
       </div>
-    </div>
-    <div class="reveal" style="transition-delay:100ms">
-      <h1 class="font-serif" style="font-size:clamp(38px,6.5vw,72px);font-weight:500;line-height:1.05;letter-spacing:-.03em;color:var(--warm);text-shadow:0 0 40px rgba(255,255,255,.25);mix-blend-overlay">
-        Mesin Kapal<br><span style="font-style:italic;font-weight:400">dan Getaran</span>
-      </h1>
-    </div>
-    <div class="reveal" style="transition-delay:200ms">
-      <p style="font-size:clamp(14px,1.8vw,17px);color:rgba(255,224,224,.6);max-width:520px;margin:24px auto 0;font-weight:300;line-height:1.7;letter-spacing:.01em;mix-blend-overlay">
-        Laboratorium ikonik Departemen Teknik Sistem Perkapalan ITS yang mempelajari internal combustion engine sebagai penggerak utama kapal, sistem pendukungnya, bahan bakar, getaran, kebisingan, dan emisi.
-      </p>
-    </div>
-    <div class="reveal" style="transition-delay:350ms;margin-top:40px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="#research" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:999px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;letter-spacing:.02em;transition:all .3s;box-shadow:0 0 30px rgba(255,69,0,.2)">
-        Jelajahi Riset
-      </a>
-      <a href="#about" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(8px);color:rgba(255,255,255,.7);font-size:13px;font-weight:500;transition:all .3s">
-        Tentang Lab
-      </a>
-    </div>
-    <div class="reveal" style="transition-delay:500ms;display:flex;gap:40px;justify-content:center;margin-top:60px">
-      <div style="text-align:center">
-        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter1">0</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Fokus Riset</div>
-      </div>
-      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
-      <div style="text-align:center">
-        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter2">0</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Anggota</div>
-      </div>
-      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
-      <div style="text-align:center">
-        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter3">0</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Kegiatan</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </nav>
 
-<!-- ABOUT -->
-<section id="about" style="padding:100px 32px;position:relative">
-<div style="max-width:1100px;margin:0 auto">
-  <div class="reveal" style="text-align:center;margin-bottom:60px">
-    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Tentang Kami</div>
-    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15;max-width:700px;margin:0 auto">
-      Laboratorium Mesin Kapal dan Getaran
-    </h2>
-  </div>
+    <main class="relative">
+      <section id="home" class="relative h-[250vh]" aria-label="Portal Laboratorium Mesin Kapal dan Getaran">
+        <div id="portal-stage" class="sticky top-0 h-screen overflow-hidden bg-ground">
+          <div class="absolute inset-0 flex items-center justify-center overflow-hidden">
+            <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/b5979122-8d87-45df-9d7e-1b4552139811/brand-assets/lab-mpp-identity-marine-power-propulsion-emblem/img_12981f16bb48.jpg" alt="" class="h-[112vh] w-[112vh] max-w-none object-cover opacity-[.14] grayscale mix-blend-luminosity">
+            <div class="absolute inset-0 bg-teal opacity-20 mix-blend-color"></div>
+            <div class="absolute inset-y-0 left-0 w-[9vw] bg-ground opacity-80"></div>
+            <div class="absolute inset-y-0 right-0 w-[9vw] bg-ground opacity-80"></div>
+          </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center" class="reveal">
-    <div>
-      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:20px">
-        Laboratorium Mesin Kapal dan Getaran merupakan salah satu laboratorium yang menjadi <strong style="color:rgba(255,255,255,.8)">ikon Departemen Teknik Sistem Perkapalan ITS</strong>, Fakultas Teknologi Kelautan.
-      </p>
-      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:20px">
-        Laboratorium ini mempelajari <strong style="color:rgba(255,255,255,.8)">internal combustion engine</strong> sebagai penggerak utama kapal, termasuk sistem pendukung motor bakar, bahan bakar, getaran, kebisingan, dan emisi yang dihasilkan.
-      </p>
-      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8">
-        Selain penelitian, lab menyelenggarakan praktikum motor bakar setiap semester untuk mendukung mata kuliah <strong style="color:rgba(255,255,255,.8)">Marine Diesel</strong>.
-      </p>
-    </div>
-    <div style="position:relative">
-      <div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:32px;position:relative;overflow:hidden">
-        <div style="position:absolute;top:0;right:0;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.08),transparent);filter:blur(40px)"></div>
-        <div style="font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;font-weight:600">Fokus Resmi Lab</div>
-        <div style="display:grid;gap:12px">
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
-            <div>
-              <div style="font-size:13px;font-weight:500">Internal Combustion Engine</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.3)">Penggerak utama kapal dan sistem pendukungnya</div>
+          <div class="absolute left-5 top-24 z-20 text-[9px] uppercase leading-5 tracking-[.18em] text-secondary md:left-10">
+            <span class="block text-bone">FTK — ITS</span><span>Departemen Teknik</span><span class="block">Sistem Perkapalan</span>
+          </div>
+          <div class="absolute bottom-8 right-5 z-20 text-right text-[9px] uppercase leading-5 tracking-[.18em] text-secondary md:right-10">
+            <span class="block text-bone">Marine Power Propulsion</span><span>Mesin Kapal dan Getaran</span>
+          </div>
+          <span class="absolute left-[12%] top-[34%] z-20 h-2 w-2 rounded-full bg-amber"></span>
+          <span class="absolute bottom-[25%] right-[13%] z-20 h-2 w-2 rounded-full bg-teal"></span>
+
+          <div class="absolute inset-0 z-10 flex pointer-events-none">
+            <div class="portal-panel-left h-full w-1/2 border-r border-[rgba(237,231,220,.13)] bg-panel transition-transform duration-75 ease-linear"></div>
+            <div class="portal-panel-right h-full w-1/2 border-l border-[rgba(237,231,220,.13)] bg-panel transition-transform duration-75 ease-linear"></div>
+          </div>
+
+          <div class="absolute inset-0 z-30 flex items-center justify-center px-5">
+            <div class="relative flex w-full max-w-[1320px] flex-col items-center justify-center">
+              <div class="hero-emblem relative z-20 mb-6 transition-transform duration-75 ease-linear md:mb-8">
+                <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/b5979122-8d87-45df-9d7e-1b4552139811/brand-assets/lab-mpp-identity-marine-power-propulsion-emblem/img_12981f16bb48.jpg" alt="Emblem resmi Marine Power Propulsion FTK-ITS" class="h-32 w-32 rounded-full border-2 border-bone bg-bone object-cover md:h-44 md:w-44">
+              </div>
+              <h1 class="flex w-full flex-col items-center justify-between overflow-visible font-syne text-[15vw] font-bold uppercase leading-[.78] md:flex-row md:text-[8.2vw]">
+                <span class="word-left block origin-center transition-transform duration-75 ease-linear">Mesin</span>
+                <span class="word-right block origin-center text-right transition-transform duration-75 ease-linear">Kapal</span>
+              </h1>
+              <p class="mt-7 max-w-[620px] text-center text-[10px] uppercase leading-6 tracking-[.18em] text-secondary md:text-[11px]">Laboratorium Mesin Kapal dan Getaran · Departemen Teknik Sistem Perkapalan ITS</p>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
-            <div>
-              <div style="font-size:13px;font-weight:500">Energi Terbarukan</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.3)">Biodiesel sebagai alternatif bahan bakar</div>
-            </div>
+          <div class="absolute bottom-8 left-5 z-40 flex items-center gap-3 text-[9px] uppercase tracking-[.18em] text-muted md:left-10"><span class="h-px w-10 bg-[rgba(237,231,220,.3)]"></span>Scroll untuk membuka portal</div>
+        </div>
+      </section>
+
+      <section id="statement" class="flex min-h-screen scroll-mt-16 items-center border-y border-[rgba(237,231,220,.13)] bg-panel px-5 py-24 md:px-10">
+        <div class="mx-auto grid w-full max-w-[1320px] items-center gap-14 md:grid-cols-[1.25fr_.75fr] md:gap-24">
+          <div class="reveal relative">
+            <span class="outline-number absolute -top-24 left-0 font-syne text-[150px] font-bold leading-none md:-left-4 md:text-[230px]">01</span>
+            <p class="relative mb-7 text-[10px] font-semibold uppercase tracking-[.2em] text-amber">Pernyataan Laboratorium</p>
+            <h2 class="relative max-w-[850px] font-syne text-[38px] font-semibold leading-[1.07] tracking-[-.045em] md:text-[66px]">Mempelajari internal combustion engine sebagai penggerak utama kapal—beserta sistem pendukung, bahan bakar, getaran, kebisingan, dan emisinya.</h2>
+            <p class="relative mt-8 max-w-[580px] text-sm leading-7 text-secondary">Laboratorium Mesin Kapal dan Getaran merupakan bagian dari Departemen Teknik Sistem Perkapalan, Fakultas Teknologi Kelautan, Institut Teknologi Sepuluh Nopember.</p>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
-            <div>
-              <div style="font-size:13px;font-weight:500">Efisiensi &amp; Emisi</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.3)">Dual fuel dan pengendalian emisi gas buang</div>
+          <figure class="reveal mx-auto w-full max-w-[390px]">
+            <div class="aspect-square overflow-hidden rounded-full border border-[rgba(237,231,220,.18)] p-5">
+              <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/b5979122-8d87-45df-9d7e-1b4552139811/brand-assets/lab-mpp-identity-marine-power-propulsion-emblem/img_12981f16bb48.jpg" alt="Emblem Marine Power Propulsion FTK-ITS" class="h-full w-full rounded-full object-cover grayscale">
             </div>
+            <figcaption class="mt-5 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-3 text-[9px] uppercase tracking-[.16em] text-muted"><span>Identitas resmi</span><span>FTK — ITS</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="research" class="scroll-mt-16 bg-ground px-5 py-28 md:px-10 md:py-36">
+        <div class="mx-auto grid max-w-[1320px] gap-16 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
+          <div class="reveal lg:sticky lg:top-28 lg:self-start">
+            <p class="mb-7 text-[10px] font-semibold uppercase tracking-[.2em] text-teal">02 / Wilayah Riset</p>
+            <h2 class="font-syne text-[48px] font-semibold leading-[.98] tracking-[-.055em] md:text-[72px]">Riset yang berpijak pada performa mesin kapal.</h2>
+            <p class="mt-8 max-w-[500px] text-sm leading-7 text-secondary">Fokus resmi meliputi biodiesel, dual fuel, pengendalian emisi gas buang, reverse engineering untuk peningkatan performa engine, serta analisis getaran dan kebisingan.</p>
+            <a id="official-roadmap-link" href="https://www.its.ac.id/siskal/wp-content/uploads/sites/39/2018/10/Roadmap-LAB-MPP.jpeg" target="_blank" rel="noreferrer" class="mt-9 inline-flex border-b border-amber pb-2 text-[10px] font-semibold uppercase tracking-[.17em] text-bone transition-colors hover:text-amber">Buka roadmap resmi ↗</a>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
-            <div>
-              <div style="font-size:13px;font-weight:500">Reverse Engineering</div>
-              <div style="font-size:11px;color:rgba(255,255,255,.3)">Peningkatan performance engine, getaran &amp; kebisingan</div>
+
+          <div class="reveal">
+            <div class="mb-5 flex items-end justify-between border-b border-[rgba(237,231,220,.13)] pb-4">
+              <div><p class="text-[10px] uppercase tracking-[.18em] text-secondary">Dek topik resmi</p><p class="mt-2 text-xs text-muted">Geser kartu atau gunakan tombol panah kiri dan kanan</p></div>
+              <span id="deck-counter" class="font-syne text-xl text-amber">01 / 06</span>
+            </div>
+            <div id="research-deck" class="relative h-[500px] md:h-[560px]" aria-label="Dek interaktif topik penelitian">
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#15191D] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Biodiesel. Kartu 1 dari 6" data-index="0"><span class="text-[10px] uppercase tracking-[.2em] text-amber">01 / Energi terbarukan</span><h3 class="mt-16 font-syne text-[48px] font-semibold tracking-[-.05em] md:text-[70px]">Biodiesel</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Pemanfaatan biodiesel sebagai alternatif bahan bakar pada sistem mesin kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Marine diesel</span><span>FTK — ITS</span></div></article>
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#121A1D] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Dual fuel. Kartu 2 dari 6" data-index="1"><span class="text-[10px] uppercase tracking-[.2em] text-teal">02 / Efisiensi energi</span><h3 class="mt-16 font-syne text-[48px] font-semibold tracking-[-.05em] md:text-[70px]">Dual Fuel</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Pengembangan sistem dual fuel untuk meningkatkan efisiensi energi pada mesin kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Efisiensi</span><span>FTK — ITS</span></div></article>
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#181613] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Pengendalian emisi. Kartu 3 dari 6" data-index="2"><span class="text-[10px] uppercase tracking-[.2em] text-amber">03 / Lingkungan</span><h3 class="mt-16 font-syne text-[42px] font-semibold leading-none tracking-[-.05em] md:text-[64px]">Emisi Gas Buang</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Kajian lingkungan dan pengendalian emisi gas buang dari internal combustion engine kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Pengendalian emisi</span><span>FTK — ITS</span></div></article>
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#15191D] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Reverse engineering. Kartu 4 dari 6" data-index="3"><span class="text-[10px] uppercase tracking-[.2em] text-teal">04 / Performa engine</span><h3 class="mt-16 font-syne text-[39px] font-semibold leading-none tracking-[-.05em] md:text-[60px]">Reverse Engineering</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Peningkatan performance engine melalui pendekatan reverse engineering pada sistem mesin kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Engine performance</span><span>FTK — ITS</span></div></article>
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#121A1D] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Getaran dan kebisingan. Kartu 5 dari 6" data-index="4"><span class="text-[10px] uppercase tracking-[.2em] text-amber">05 / Analisis</span><h3 class="mt-16 font-syne text-[40px] font-semibold leading-none tracking-[-.05em] md:text-[62px]">Getaran &amp; Kebisingan</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Kajian getaran dan kebisingan yang dihasilkan oleh sistem mesin kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Analisis dan mitigasi</span><span>FTK — ITS</span></div></article>
+              <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#181613] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Praktikum Marine Diesel. Kartu 6 dari 6" data-index="5"><span class="text-[10px] uppercase tracking-[.2em] text-teal">06 / Aktivitas akademik</span><h3 class="mt-16 font-syne text-[42px] font-semibold leading-none tracking-[-.05em] md:text-[64px]">Marine Diesel</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Praktikum motor bakar yang dilaksanakan setiap semester untuk mendukung mata kuliah Marine Diesel.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Setiap semester</span><span>FTK — ITS</span></div></article>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
+      </section>
 
-<!-- RESEARCH -->
-<section id="research" style="padding:100px 32px;position:relative;overflow:hidden">
-<div style="position:absolute;inset:0;z-index:0;pointer-events:none">
-  <div style="position:absolute;top:50%;left:50%;width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.04),transparent 60%);filter:blur(100px);transform:translate(-50%,-50%)"></div>
-</div>
-<div style="max-width:1100px;margin:0 auto;position:relative;z-index:2">
-  <div class="reveal" style="text-align:center;margin-bottom:60px">
-    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Riset Laboratorium</div>
-    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Roadmap &amp; Topik Penelitian</h2>
-    <p style="font-size:14px;color:rgba(255,255,255,.4);max-width:600px;margin:16px auto 0;line-height:1.7">Topik resmi yang tercantum pada halaman Laboratorium Mesin Kapal dan Getaran DTSP ITS.</p>
-  </div>
-
-  <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
-    <div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px">
-      <div style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">Roadmap Penelitian</div>
-      <img src="https://www.its.ac.id/siskal/wp-content/uploads/sites/39/2018/10/Roadmap-LAB-MPP.jpeg" alt="Roadmap penelitian Laboratorium Mesin Kapal dan Getaran" style="width:100%;height:280px;object-fit:contain;background:#0a0a0a;border-radius:10px;cursor:zoom-in" onclick="openImage(this.src)">
-      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:10px">Klik gambar untuk memperbesar</div>
-    </div>
-    <div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px">
-      <div style="font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">Topik Resmi</div>
-      <div style="display:grid;gap:10px">
-        <div class="topic-row"><span>01</span><b>Energi terbarukan</b><small>Biodiesel</small></div>
-        <div class="topic-row"><span>02</span><b>Efisiensi energi</b><small>Dual fuel</small></div>
-        <div class="topic-row"><span>03</span><b>Lingkungan</b><small>Pengendalian emisi gas buang</small></div>
-        <div class="topic-row"><span>04</span><b>Reverse engineering</b><small>Peningkatan performance engine</small></div>
-        <div class="topic-row"><span>05</span><b>Getaran &amp; kebisingan</b><small>Analisis dan mitigasi</small></div>
-      </div>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-    <!-- Research Card 1 -->
-    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Energi Terbarukan</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Pemanfaatan biodiesel sebagai alternatif bahan bakar pada sistem mesin kapal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">biodiesel</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">marine diesel</span>
-      </div>
-    </div>
-
-    <!-- Research Card 2 -->
-    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Efisiensi Energi</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Pengembangan sistem dual fuel untuk meningkatkan efisiensi energi pada mesin kapal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">dual fuel</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">efficiency</span>
-      </div>
-    </div>
-
-    <!-- Research Card 3 -->
-    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Pengendalian Emisi</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Kajian lingkungan dan pengendalian emisi gas buang dari internal combustion engine kapal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">gas buang</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">lingkungan</span>
-      </div>
-    </div>
-
-    <!-- Research Card 4 -->
-    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Reverse Engineering</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Peningkatan performance engine melalui pendekatan reverse engineering pada sistem mesin kapal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">performance</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">engine</span>
-      </div>
-    </div>
-
-    <!-- Research Card 5 -->
-    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16M7 18V7m5 11V4m5 14v-8M4 7h3M12 4h5"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Getaran &amp; Kebisingan</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Kajian getaran dan kebisingan yang dihasilkan oleh sistem mesin kapal.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">FFT analysis</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">mounting</span>
-      </div>
-    </div>
-
-    <!-- Research Card 6 -->
-    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18h11a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 0 9z"/></svg></div>
-      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Kegiatan Marine Diesel</h3>
-      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Praktikum motor bakar yang dilaksanakan setiap semester untuk mendukung mata kuliah Marine Diesel.</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">Marine Diesel</span>
-        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">praktikum</span>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- FACILITIES -->
-<section id="facilities" style="padding:100px 32px;position:relative">
-<div style="max-width:1100px;margin:0 auto">
-  <div class="reveal" style="text-align:center;margin-bottom:60px">
-    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Aktivitas Laboratorium</div>
-    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Belajar, Menguji, Mengembangkan</h2>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-    <div class="reveal" style="background:var(--accent);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.boxShadow='0 30px 80px rgba(255,69,0,.25)'" onmouseout="this.style.boxShadow='none'">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:20px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
-        <span style="font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.2);padding:4px 12px;border-radius:999px;color:rgba(0,0,0,.6)">Core Facility</span>
-      </div>
-      <div>
-        <h3 class="font-serif" style="font-size:28px;color:#000;line-height:1;margin-bottom:8px">Praktikum Motor Bakar</h3>
-        <p style="font-size:14px;color:rgba(0,0,0,.6)">Kegiatan praktikum motor bakar yang dilaksanakan setiap semester untuk mendukung mata kuliah Marine Diesel.</p>
-      </div>
-    </div>
-
-    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
-        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Engine Lab</span>
-      </div>
-      <div>
-        <h3 class="font-serif" style="font-size:28px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">Internal Combustion Engine</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,.35)">Pembelajaran dan penelitian motor bakar dalam sebagai penggerak utama kapal beserta sistem pendukungnya.</p>
-      </div>
-    </div>
-
-    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
-        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Simulation</span>
-      </div>
-      <div>
-        <h3 class="font-serif" style="font-size:22px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">Mesin, Getaran &amp; Kebisingan</h3>
-        <p style="font-size:13px;color:rgba(255,255,255,.35)">Kajian sistem mesin kapal, getaran, dan kebisingan yang dihasilkan, termasuk analisis dan upaya peningkatan performa.</p>
-      </div>
-    </div>
-
-    <div class="reveal" style="transition-delay:300ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
-        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Measurement</span>
-      </div>
-      <div>
-        <h3 class="font-serif" style="font-size:22px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">Proyek &amp; Penelitian</h3>
-        <p style="font-size:13px;color:rgba(255,255,255,.35)">Riset tugas akhir dan pengembangan topik: biodiesel, dual fuel, emisi, reverse engineering, getaran, dan kebisingan.</p>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- TEAM -->
-<section id="team" style="padding:100px 32px;position:relative">
-<div style="max-width:1100px;margin:0 auto">
-  <div class="reveal" style="text-align:center;margin-bottom:60px">
-    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Tim Peneliti</div>
-    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Dosen &amp; Peneliti</h2>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
-    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">A</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Dr. I. Made Ariana, S.T., M.T.</div>
-      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Kepala Laboratorium</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.3)">Mesin Kapal dan Getaran</div>
-    </div>
-    <div class="reveal" style="transition-delay:80ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">B</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Prof. Semin, S.T., M.T., Ph.D.</div>
-      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Anggota Laboratorium</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.3)">Mesin Kapal &amp; Energi</div>
-    </div>
-    <div class="reveal" style="transition-delay:160ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">C</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Ir. Aguk Zuhdi M. Fathallah, M.Eng., Ph.D.</div>
-      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Anggota Laboratorium</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.3)">Motor Bakar &amp; Performa</div>
-    </div>
-    <div class="reveal" style="transition-delay:240ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
-      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">D</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Beny Cahyono, S.T., M.T., Ph.D.</div>
-      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Anggota Laboratorium</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.3)">Getaran &amp; Kebisingan</div>
-    </div>
-  </div>
-  <div class="reveal" style="text-align:center;margin-top:32px">
-    <div style="font-size:12px;color:rgba(255,255,255,.25);font-style:italic">Daftar anggota berdasarkan informasi yang tercantum pada halaman resmi laboratorium.</div>
-  </div>
-</div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" style="padding:100px 32px;position:relative">
-<div style="max-width:700px;margin:0 auto">
-  <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:48px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-50%;right:-50%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.06),transparent);filter:blur(60px)"></div>
-    <div style="position:relative">
-      <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-weight:600">Kontak</div>
-      <h2 class="font-serif" style="font-size:28px;color:rgba(255,255,255,.85);line-height:1.15;margin-bottom:24px">Hubungi Laboratorium</h2>
-      <div style="display:grid;gap:16px">
-        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></div>
-          <div>
-            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Email</div>
-            <div style="font-size:14px;font-weight:500">jtsp@its.ac.id</div>
+      <section id="roster" class="scroll-mt-16 border-y border-[rgba(237,231,220,.13)] bg-panel px-5 py-28 md:px-10">
+        <div class="mx-auto max-w-[1320px]">
+          <div class="reveal mb-14 flex items-end justify-between"><div><p class="mb-5 text-[10px] font-semibold uppercase tracking-[.2em] text-amber">03 / Roster</p><h2 class="font-syne text-[46px] font-semibold tracking-[-.05em] md:text-[68px]">Dosen &amp; Peneliti</h2></div><span class="hidden text-[9px] uppercase tracking-[.18em] text-muted md:block">Laboratorium Mesin Kapal dan Getaran</span></div>
+          <div class="reveal border-t border-[rgba(237,231,220,.13)]">
+            <article class="grid gap-3 border-b border-[rgba(237,231,220,.13)] py-7 md:grid-cols-[80px_1.4fr_.8fr] md:items-center"><span class="font-syne text-lg text-amber">01</span><h3 class="font-syne text-xl font-semibold md:text-2xl">Dr. I. Made Ariana, S.T., M.T.</h3><p class="text-[10px] uppercase tracking-[.16em] text-secondary">Kepala Laboratorium</p></article>
+            <article class="grid gap-3 border-b border-[rgba(237,231,220,.13)] py-7 md:grid-cols-[80px_1.4fr_.8fr] md:items-center"><span class="font-syne text-lg text-muted">02</span><h3 class="font-syne text-xl font-semibold md:text-2xl">Prof. Semin, S.T., M.T., Ph.D.</h3><p class="text-[10px] uppercase tracking-[.16em] text-secondary">Anggota Laboratorium</p></article>
+            <article class="grid gap-3 border-b border-[rgba(237,231,220,.13)] py-7 md:grid-cols-[80px_1.4fr_.8fr] md:items-center"><span class="font-syne text-lg text-muted">03</span><h3 class="font-syne text-xl font-semibold md:text-2xl">Ir. Aguk Zuhdi M. Fathallah, M.Eng., Ph.D.</h3><p class="text-[10px] uppercase tracking-[.16em] text-secondary">Anggota Laboratorium</p></article>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h3l1.5 4-2 1.5a14 14 0 0 0 5 5L16 12.5 20 14v3c0 1.1-.9 2-2 2C10.3 19 5 13.7 5 7a2 2 0 0 1 2-2z"/></svg></div>
-          <div>
-            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Telepon</div>
-            <div style="font-size:14px;font-weight:500">(031) 599 4251 ext. 1102, 1103</div>
+      </section>
+
+      <section id="information" class="scroll-mt-16 bg-ground px-5 py-28 md:px-10 md:py-36">
+        <div class="mx-auto max-w-[1320px]">
+          <div class="reveal mb-16 grid gap-6 md:grid-cols-2"><p class="text-[10px] font-semibold uppercase tracking-[.2em] text-teal">04 / Informasi</p><h2 class="font-syne text-[46px] font-semibold leading-none tracking-[-.05em] md:text-[68px]">Aktivitas resmi laboratorium.</h2></div>
+          <div class="reveal border-t border-[rgba(237,231,220,.13)]">
+            <div class="grid gap-5 border-b border-[rgba(237,231,220,.13)] py-8 md:grid-cols-2"><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Jadwal</span><p class="mt-3 font-syne text-2xl font-semibold">Setiap Semester</p></div><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Kegiatan</span><p class="mt-3 text-sm leading-7 text-secondary">Praktikum motor bakar untuk mendukung mata kuliah Marine Diesel.</p></div></div>
+            <div class="grid gap-5 border-b border-[rgba(237,231,220,.13)] py-8 md:grid-cols-2"><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Bidang</span><p class="mt-3 font-syne text-2xl font-semibold">Penelitian</p></div><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Cakupan</span><p class="mt-3 text-sm leading-7 text-secondary">Biodiesel, dual fuel, pengendalian emisi gas buang, reverse engineering, getaran, dan kebisingan.</p></div></div>
+            <div class="grid gap-5 border-b border-[rgba(237,231,220,.13)] py-8 md:grid-cols-2"><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Objek Utama</span><p class="mt-3 font-syne text-2xl font-semibold">Internal Combustion Engine</p></div><div><span class="text-[9px] uppercase tracking-[.18em] text-muted">Konteks</span><p class="mt-3 text-sm leading-7 text-secondary">Penggerak utama kapal beserta sistem pendukungnya.</p></div></div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg></div>
-          <div>
-            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Lokasi</div>
-            <div style="font-size:14px;font-weight:500">Gedung WA, Kampus ITS Sukolilo, Surabaya 60111</div>
+      </section>
+
+      <section id="contact" class="relative scroll-mt-16 overflow-hidden border-t border-[rgba(237,231,220,.13)] bg-panel px-5 pb-10 pt-28 md:px-10 md:pt-36">
+        <div class="reveal relative z-10 mx-auto max-w-[1320px]">
+          <p class="mb-8 text-[10px] font-semibold uppercase tracking-[.2em] text-amber">05 / Kontak</p>
+          <h2 class="max-w-[1050px] font-syne text-[48px] font-semibold leading-[.98] tracking-[-.055em] md:text-[86px]">Terhubung dengan Laboratorium Mesin Kapal dan Getaran.</h2>
+          <div class="mt-16 grid gap-10 border-t border-[rgba(237,231,220,.13)] py-10 md:grid-cols-3">
+            <div><p class="text-[9px] uppercase tracking-[.18em] text-muted">Lokasi</p><p class="mt-4 text-sm leading-7 text-bone">Kampus ITS Sukolilo<br>Surabaya</p></div>
+            <div><p class="text-[9px] uppercase tracking-[.18em] text-muted">Institusi</p><p class="mt-4 text-sm leading-7 text-bone">Departemen Teknik Sistem Perkapalan<br>Fakultas Teknologi Kelautan — ITS</p></div>
+            <div><p class="text-[9px] uppercase tracking-[.18em] text-muted">Sumber Resmi</p><a id="official-its-source-link" href="https://www.its.ac.id/siskal/" target="_blank" rel="noreferrer" class="mt-4 inline-block border-b border-amber pb-2 text-sm text-bone transition-colors hover:text-amber">Teknik Sistem Perkapalan ITS ↗</a></div>
           </div>
         </div>
-      </div>
-    </div>
+        <div class="pointer-events-none mt-14 whitespace-nowrap font-syne text-[17vw] font-bold uppercase leading-[.68] tracking-[-.085em] text-bone opacity-[.055]">Mesin Kapal</div>
+        <footer class="relative z-10 mx-auto mt-12 flex max-w-[1320px] flex-col gap-3 border-t border-[rgba(237,231,220,.13)] pt-6 text-[9px] uppercase tracking-[.15em] text-muted md:flex-row md:items-center md:justify-between"><span>© Laboratorium Mesin Kapal dan Getaran</span><span>DTSP · FTK · Institut Teknologi Sepuluh Nopember</span></footer>
+      </section>
+    </main>
   </div>
-</div>
-</section>
 
-<!-- FOOTER -->
-<footer style="border-top:1px solid rgba(255,255,255,.06);padding:40px 32px;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
-  <div>
-    <span style="font-size:12px;color:rgba(255,255,255,.25)">&copy; 2026 Laboratorium Mesin Kapal dan Getaran — DTSP ITS</span>
-  </div>
-  <div style="display:flex;gap:20px">
-    <a href="https://www.its.ac.id/siskal/" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">DTSP ITS</a>
-    <a href="https://www.its.ac.id" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">ITS</a>
-  </div>
-</footer>
+  <script>
+    const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const portal=document.getElementById('home');
+    function updatePortal(){
+      if(reduceMotion){document.documentElement.style.setProperty('--portal','1');document.documentElement.style.setProperty('--spread','1');document.documentElement.style.setProperty('--title-scale','.84');return}
+      const rect=portal.getBoundingClientRect();
+      const range=portal.offsetHeight-window.innerHeight;
+      const progress=Math.max(0,Math.min(1,-rect.top/range));
+      const opening=Math.max(0,Math.min(1,progress/.68));
+      document.documentElement.style.setProperty('--portal',opening.toFixed(3));
+      document.documentElement.style.setProperty('--spread',progress.toFixed(3));
+      document.documentElement.style.setProperty('--title-scale',(1-progress*.16).toFixed(3));
+    }
+    updatePortal();
+    window.addEventListener('scroll',updatePortal,{passive:true});
+    window.addEventListener('resize',updatePortal);
 
-<script>
-// Roadmap lightbox
-function openImage(src){
-  const modal=document.createElement('div');
-  modal.style.cssText='position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out';
-  modal.innerHTML=`<img src="${src}" alt="Roadmap penelitian" style="max-width:92vw;max-height:92vh;object-fit:contain;border:1px solid rgba(255,255,255,.15);border-radius:8px">`;
-  modal.addEventListener('click',()=>modal.remove());
-  document.body.appendChild(modal);
-}
+    if(!reduceMotion){
+      const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('active');observer.unobserve(entry.target)}}),{threshold:.12});
+      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    }else{document.querySelectorAll('.reveal').forEach(el=>el.classList.add('active'))}
 
-// Scroll reveal
-const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// Nav scroll
-window.addEventListener('scroll',()=>{
-  const nav=document.getElementById('nav');
-  nav.style.background=window.scrollY>80?'rgba(5,5,5,.92)':'transparent';
-  nav.style.backdropFilter=window.scrollY>80?'blur(16px)':'none';
-  nav.style.borderBottom=window.scrollY>80?'1px solid rgba(255,255,255,.06)':'none';
-});
-
-// Counter animation
-function animateCounter(id,target,duration){
-  const el=document.getElementById(id);
-  let start=0;const step=target/(duration/16);
-  function update(){start+=step;if(start>=target){el.textContent=target+'+';return}el.textContent=Math.floor(start)+'+';requestAnimationFrame(update)}
-  update();
-}
-const counterObs=new IntersectionObserver(e=>{
-  e.forEach(x=>{if(x.isIntersecting){
-    animateCounter('counter1',5,1000);
-    animateCounter('counter2',5,1000);
-    animateCounter('counter3',1,700);
-    counterObs.disconnect();
-  }});
-},{threshold:.5});
-counterObs.observe(document.getElementById('counter1'));
-
-// Smooth scroll for nav links
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    e.preventDefault();
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
-  });
-});
-</script>
+    const deck=document.getElementById('research-deck');
+    const counter=document.getElementById('deck-counter');
+    let cards=[...deck.querySelectorAll('.deck-card')];
+    let active=null,startX=0,startY=0,currentX=0,currentY=0;
+    function layoutDeck(){
+      cards.forEach((card,i)=>{
+        const depth=cards.length-1-i;
+        card.style.zIndex=String(i+1);
+        card.style.opacity=depth>3?'0':'1';
+        card.style.pointerEvents=i===cards.length-1?'auto':'none';
+        card.style.transform=`translate(${depth*8}px, ${depth*-9}px) rotate(${depth%2===0?depth*.35:-depth*.35}deg) scale(${1-depth*.018})`;
+        card.setAttribute('aria-hidden',i===cards.length-1?'false':'true');
+      });
+      const top=cards[cards.length-1];
+      counter.textContent=String(Number(top.dataset.index)+1).padStart(2,'0')+' / 06';
+    }
+    function restack(direction){
+      const top=cards.pop();
+      top.style.opacity='0';
+      top.style.transform=`translateX(${direction*120}%) rotate(${direction*8}deg)`;
+      window.setTimeout(()=>{cards.unshift(top);layoutDeck()},reduceMotion?0:260);
+    }
+    deck.addEventListener('pointerdown',event=>{
+      const top=cards[cards.length-1];if(event.target.closest('.deck-card')!==top)return;
+      active=top;startX=event.clientX;startY=event.clientY;currentX=0;currentY=0;active.classList.add('dragging');active.setPointerCapture(event.pointerId);
+    });
+    deck.addEventListener('pointermove',event=>{
+      if(!active)return;currentX=event.clientX-startX;currentY=event.clientY-startY;
+      if(Math.abs(currentX)>Math.abs(currentY))event.preventDefault();
+      active.style.transform=`translate(${currentX}px,${currentY*.25}px) rotate(${currentX*.025}deg)`;
+    });
+    function release(){if(!active)return;active.classList.remove('dragging');const direction=currentX<0?-1:1;if(Math.abs(currentX)>90)restack(direction);else layoutDeck();active=null}
+    deck.addEventListener('pointerup',release);deck.addEventListener('pointercancel',release);
+    deck.addEventListener('keydown',event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();restack(event.key==='ArrowLeft'?-1:1)}});
+    layoutDeck();
+  </script>
 </body>
 </html>
