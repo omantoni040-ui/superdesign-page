@@ -1,852 +1,492 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Superdesign — AI Product Design Agent</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superdesign</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    :root {
-      --bg: #0a0a0a;
-      --bg-card: rgba(255,255,255,0.04);
-      --bg-card-hover: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.15);
-      --text: #fafafa;
-      --text-muted: #a1a1aa;
-      --text-dim: #71717a;
-      --accent: #a78bfa;
-      --accent-glow: rgba(167,139,250,0.3);
-      --aurora-1: #7c3aed;
-      --aurora-2: #06b6d4;
-      --aurora-3: #8b5cf6;
-      --aurora-4: #ec4899;
-      --radius: 12px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-    }
+*{margin:0;padding:0;box-sizing:border-box}
 
-    html { scroll-behavior: smooth; }
+:root{
+  --bg:#0c0c0e;
+  --surface:#131316;
+  --surface-2:#1a1a1f;
+  --border:#232328;
+  --border-light:#2e2e35;
+  --fg:#e8e8ec;
+  --fg-dim:#8b8b97;
+  --fg-muted:#5c5c68;
+  --accent:#c8ff00;
+  --accent-dim:rgba(200,255,0,.12);
+  --violet:#a78bfa;
+  --cyan:#22d3ee;
+  --rose:#fb7185;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Space Grotesk',system-ui,sans-serif;
+}
 
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-    /* === AURORA BACKGROUND === */
-    .aurora-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .aurora-bg .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.35;
-      animation: float 20s ease-in-out infinite;
-    }
-    .aurora-bg .blob:nth-child(1) {
-      width: 600px; height: 600px;
-      background: var(--aurora-1);
-      top: -15%; left: -10%;
-      animation-delay: 0s;
-    }
-    .aurora-bg .blob:nth-child(2) {
-      width: 500px; height: 500px;
-      background: var(--aurora-2);
-      top: 30%; right: -15%;
-      animation-delay: -5s;
-      animation-duration: 25s;
-    }
-    .aurora-bg .blob:nth-child(3) {
-      width: 450px; height: 450px;
-      background: var(--aurora-3);
-      bottom: -10%; left: 30%;
-      animation-delay: -10s;
-      animation-duration: 22s;
-    }
-    .aurora-bg .blob:nth-child(4) {
-      width: 350px; height: 350px;
-      background: var(--aurora-4);
-      top: 50%; left: 50%;
-      animation-delay: -15s;
-      animation-duration: 28s;
-      opacity: 0.2;
-    }
+/* NOISE TEXTURE */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.4
+}
 
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(80px, -60px) scale(1.1); }
-      50% { transform: translate(-40px, 80px) scale(0.9); }
-      75% { transform: translate(60px, 40px) scale(1.05); }
-    }
+a{color:inherit;text-decoration:none}
 
-    /* === GRID OVERLAY === */
-    .grid-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 70%);
-    }
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:52px;
+  background:rgba(12,12,14,.85);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;letter-spacing:-.02em}
+.nav-logo span{color:var(--accent);font-size:18px;line-height:1}
+.nav-center{display:flex;gap:24px}
+.nav-center a{color:var(--fg-dim);font-weight:500;font-size:13px;transition:color .15s}
+.nav-center a:hover{color:var(--fg)}
+.nav-right{display:flex;gap:8px;align-items:center}
+.nav-right a{color:var(--fg-dim);font-size:13px;font-weight:500;padding:6px 12px;transition:color .15s}
+.nav-right a:hover{color:var(--fg)}
+.btn-sm{
+  padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;
+  background:var(--fg);color:var(--bg);border:none;cursor:pointer;
+  font-family:var(--sans);transition:opacity .15s;letter-spacing:.01em
+}
+.btn-sm:hover{opacity:.85}
 
-    /* === NAVBAR === */
-    .navbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      background: rgba(10,10,10,0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-brand svg {
-      width: 24px; height: 24px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .nav-link {
-      padding: 6px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-decoration: none;
-      border-radius: var(--radius-full);
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.06); }
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      border-radius: var(--radius-full);
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-      white-space: nowrap;
-    }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-muted);
-    }
-    .btn-ghost:hover { color: var(--text); background: rgba(255,255,255,0.06); }
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-    }
-    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+/* HERO — split layout, not centered */
+.hero{
+  padding:120px 32px 40px;
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;
+}
+.hero-left h1{
+  font-size:clamp(38px,5.5vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;
+  margin-bottom:16px;
+}
+.hero-left h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-left p{font-size:15px;color:var(--fg-dim);max-width:380px;line-height:1.6;margin-bottom:24px}
+.hero-left .stats{
+  display:flex;gap:32px;font-size:12px;color:var(--fg-muted);font-family:var(--mono);
+  text-transform:uppercase;letter-spacing:.08em
+}
+.hero-left .stats strong{color:var(--fg);font-size:20px;display:block;font-family:var(--sans);letter-spacing:-.02em;margin-bottom:2px}
 
-    /* === HERO === */
-    .hero {
-      position: relative;
-      z-index: 2;
-      padding: 140px 24px 80px;
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 32px;
-      backdrop-filter: blur(10px);
-    }
-    .hero-badge .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 8px rgba(34,197,94,0.5);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .hero h1 {
-      font-size: clamp(40px, 7vw, 72px);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #06b6d4 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p {
-      font-size: 17px;
-      line-height: 1.6;
-      color: var(--text-muted);
-      max-width: 500px;
-      margin: 0 auto 36px;
-    }
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn-hero {
-      padding: 12px 28px;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: var(--radius-full);
-    }
-    .btn-hero-primary {
-      background: linear-gradient(135deg, var(--aurora-1), var(--aurora-3));
-      color: white;
-      box-shadow: 0 0 30px var(--accent-glow);
-      border: none;
-    }
-    .btn-hero-primary:hover {
-      box-shadow: 0 0 50px var(--accent-glow);
-      transform: translateY(-2px);
-    }
-    .btn-hero-secondary {
-      background: var(--bg-card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      backdrop-filter: blur(10px);
-    }
-    .btn-hero-secondary:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-card-hover);
-    }
+.hero-right{
+  position:relative;
+}
+.hero-right .terminal{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  overflow:hidden;font-family:var(--mono);font-size:12px;
+}
+.terminal-bar{
+  display:flex;align-items:center;gap:6px;padding:10px 14px;
+  background:var(--surface-2);border-bottom:1px solid var(--border);
+}
+.terminal-bar i{width:10px;height:10px;border-radius:50%;display:block}
+.terminal-bar i:nth-child(1){background:#ff5f57}
+.terminal-bar i:nth-child(2){background:#febc2e}
+.terminal-bar i:nth-child(3){background:#28c840}
+.terminal-bar span{margin-left:8px;color:var(--fg-muted);font-size:11px}
+.terminal-body{padding:16px;line-height:1.8}
+.terminal-body .prompt{color:var(--accent)}
+.terminal-body .cmd{color:var(--fg)}
+.terminal-body .out{color:var(--fg-dim)}
+.terminal-body .hl{color:var(--violet)}
+.terminal-body .ok{color:#22c55e}
+.terminal-body .blink{animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
 
-    /* === PROMPT INPUT === */
-    .prompt-container {
-      position: relative;
-      z-index: 2;
-      max-width: 640px;
-      margin: -20px auto 0;
-      padding: 0 24px;
-    }
-    .prompt-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 16px 20px;
-      backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: border-color 0.3s;
-    }
-    .prompt-box:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-glow);
-    }
-    .prompt-box input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-size: 14px;
-      font-family: inherit;
-    }
-    .prompt-box input::placeholder { color: var(--text-dim); }
-    .prompt-send {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--aurora-1), var(--aurora-3));
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-    .prompt-send:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-    .prompt-send svg {
-      width: 16px; height: 16px;
-      fill: white;
-    }
-    .prompt-tools {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      justify-content: center;
-    }
-    .tool-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 12px;
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .tool-chip:hover {
-      border-color: var(--border-hover);
-      color: var(--text-muted);
-      background: var(--bg-card);
-    }
-    .tool-chip svg { width: 12px; height: 12px; }
+/* PROMPT BAR */
+.prompt-section{max-width:1100px;margin:0 auto;padding:0 32px 60px}
+.prompt-bar{
+  display:flex;gap:0;border:1px solid var(--border);border-radius:10px;
+  background:var(--surface);overflow:hidden;transition:border-color .2s
+}
+.prompt-bar:focus-within{border-color:var(--accent)}
+.prompt-bar input{
+  flex:1;background:transparent;border:none;outline:none;
+  padding:14px 18px;color:var(--fg);font-size:14px;font-family:var(--sans);
+}
+.prompt-bar input::placeholder{color:var(--fg-muted)}
+.prompt-bar button{
+  padding:14px 20px;background:var(--accent);color:var(--bg);border:none;
+  font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans);
+  transition:opacity .15s;white-space:nowrap
+}
+.prompt-bar button:hover{opacity:.85}
+.prompt-actions{
+  display:flex;gap:8px;margin-top:10px;flex-wrap:wrap
+}
+.prompt-actions button{
+  padding:5px 12px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;color:var(--fg-dim);font-size:11px;font-weight:500;
+  cursor:pointer;font-family:var(--sans);transition:all .15s
+}
+.prompt-actions button:hover{border-color:var(--border-light);color:var(--fg)}
 
-    /* === SECTION === */
-    .section {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 24px;
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .section-header h2 {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-    }
-    .section-header p {
-      font-size: 15px;
-      color: var(--text-muted);
-    }
+/* DIVIDER */
+.divider{
+  max-width:1100px;margin:0 auto;padding:0 32px;
+  border-top:1px solid var(--border);
+}
 
-    /* === CATEGORY TABS === */
-    .category-tabs {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
-    .tab {
-      padding: 7px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-dim);
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .tab:hover { color: var(--text-muted); background: var(--bg-card); }
-    .tab.active {
-      color: var(--text);
-      background: var(--bg-card-hover);
-      border-color: var(--border);
-    }
+/* SHOWCASE — Masonry-ish, not perfect grid */
+.showcase{max-width:1100px;margin:0 auto;padding:60px 32px}
+.showcase-head{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:28px
+}
+.showcase-head h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.showcase-head .count{font-size:12px;color:var(--fg-muted);font-family:var(--mono)}
 
-    /* === DESIGN CARDS GRID === */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-    .design-card {
-      position: relative;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      group: card;
-    }
-    .design-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    .card-thumb {
-      width: 100%;
-      aspect-ratio: 16/10;
-      background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.15));
-      position: relative;
-      overflow: hidden;
-    }
-    .card-thumb::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .design-card:hover .card-thumb::after { opacity: 0.1; }
-    .card-thumb-inner {
-      position: absolute;
-      inset: 20px;
-      border-radius: var(--radius);
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      color: var(--text-dim);
-    }
-    .card-content {
-      padding: 14px 16px;
-    }
-    .card-content h3 {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 8px;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-    .card-meta span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .card-overlay {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: flex;
-      gap: 6px;
-      opacity: 0;
-      transform: translateY(-4px);
-      transition: all 0.2s;
-    }
-    .design-card:hover .card-overlay {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .card-btn {
-      padding: 5px 12px;
-      font-size: 11px;
-      font-weight: 500;
-      border-radius: var(--radius-full);
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s;
-    }
-    .card-btn-use {
-      background: var(--text);
-      color: var(--bg);
-    }
-    .card-btn-icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    }
+.showcase-filters{
+  display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap
+}
+.showcase-filters button{
+  padding:6px 14px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;color:var(--fg-dim);font-size:12px;font-weight:500;
+  cursor:pointer;font-family:var(--sans);transition:all .15s
+}
+.showcase-filters button.active{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.showcase-filters button:hover:not(.active){border-color:var(--border-light);color:var(--fg)}
 
-    /* === FEATURES === */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .feature-card {
-      padding: 28px 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      transition: all 0.3s;
-    }
-    .feature-card:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-card-hover);
-    }
-    .feature-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      font-size: 18px;
-    }
-    .feature-card h3 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .feature-card p {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
+.showcase-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
 
-    /* === CTA === */
-    .cta {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 100px 24px;
-    }
-    .cta-box {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 60px 40px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      backdrop-filter: blur(20px);
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: conic-gradient(from 0deg, transparent, var(--aurora-1), transparent, var(--aurora-2), transparent);
-      animation: rotate 10s linear infinite;
-      opacity: 0.05;
-    }
-    @keyframes rotate { to { transform: rotate(360deg); } }
-    .cta-box h2 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .cta-box p {
-      font-size: 15px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-      position: relative;
-    }
-    .cta-box .btn { position: relative; }
+/* ASYMMETRIC CARD SIZING */
+.showcase-grid .card:nth-child(1){grid-column:span 2}
+.showcase-grid .card:nth-child(4){grid-row:span 2}
+.showcase-grid .card:nth-child(7){grid-column:span 2}
 
-    /* === FOOTER === */
-    footer {
-      position: relative;
-      z-index: 2;
-      border-top: 1px solid var(--border);
-      padding: 32px 24px;
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-dim);
-    }
+.card{
+  position:relative;border-radius:10px;overflow:hidden;
+  border:1px solid var(--border);background:var(--surface);
+  cursor:pointer;transition:all .25s ease;
+  min-height:200px;
+}
+.card:hover{border-color:var(--border-light);transform:translateY(-2px)}
+.card-visual{
+  width:100%;height:100%;min-height:inherit;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.card-visual .pattern{
+  position:absolute;inset:0;opacity:.6;
+}
+.card-visual .label{
+  position:relative;z-index:2;font-size:13px;font-weight:500;
+  color:var(--fg-dim);text-align:center;padding:20px;
+}
 
-    /* === SCROLL REVEAL === */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+/* CARD PATTERNS — each unique */
+.pattern-grid{
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:20px 20px;
+}
+.pattern-dots{
+  background-image:radial-gradient(circle,var(--fg-muted) 1px,transparent 1px);
+  background-size:16px 16px;
+}
+.pattern-diagonal{
+  background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,var(--border) 10px,var(--border) 11px);
+}
+.pattern-gradient-1{background:linear-gradient(135deg,var(--violet),var(--cyan))}
+.pattern-gradient-2{background:linear-gradient(135deg,var(--rose),var(--accent))}
+.pattern-gradient-3{background:linear-gradient(160deg,#1e1b4b,#312e81,#1e1b4b)}
+.pattern-zigzag{
+  background:
+    linear-gradient(135deg,var(--surface-2) 25%,transparent 25%) -20px 0,
+    linear-gradient(225deg,var(--surface-2) 25%,transparent 25%) -20px 0,
+    linear-gradient(315deg,var(--surface-2) 25%,transparent 25%),
+    linear-gradient(45deg,var(--surface-2) 25%,transparent 25%);
+  background-size:40px 40px;
+  background-color:var(--surface);
+}
+.pattern-noise{
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
 
-    /* === RESPONSIVE === */
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .hero { padding: 120px 20px 60px; }
-      .hero h1 { font-size: 36px; }
-      .cards-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .card-content { padding: 10px 12px; }
-      .card-content h3 { font-size: 12px; }
-      .section { padding: 50px 16px; }
-    }
-  </style>
+.card-overlay{
+  position:absolute;top:10px;right:10px;display:flex;gap:6px;
+  opacity:0;transform:translateY(-4px);transition:all .2s;z-index:3
+}
+.card:hover .card-overlay{opacity:1;transform:translateY(0)}
+.card-overlay button{
+  padding:4px 10px;border-radius:5px;border:none;font-size:11px;
+  font-weight:600;cursor:pointer;font-family:var(--sans);transition:opacity .15s
+}
+.card-overlay .use{background:var(--accent);color:var(--bg)}
+.card-overlay .more{background:rgba(0,0,0,.6);color:white;width:26px;height:26px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+.card-meta{
+  position:absolute;bottom:0;left:0;right:0;padding:10px 14px;
+  background:linear-gradient(transparent,rgba(12,12,14,.9));
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--fg-muted);z-index:2
+}
+.card-meta .title{color:var(--fg-dim);font-weight:500;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-meta .views{font-family:var(--mono);font-size:10px}
+
+/* WHY SECTION — horizontal, not centered grid */
+.why{max-width:1100px;margin:0 auto;padding:60px 32px}
+.why h2{font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:32px}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:10px;overflow:hidden}
+.why-item{
+  padding:28px 24px;background:var(--surface);
+}
+.why-item .num{
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+  margin-bottom:12px;display:block;letter-spacing:.05em
+}
+.why-item h3{font-size:14px;font-weight:600;margin-bottom:8px}
+.why-item p{font-size:12px;color:var(--fg-dim);line-height:1.6}
+
+/* FOOTER */
+footer{
+  max-width:1100px;margin:0 auto;padding:40px 32px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;color:var(--fg-muted);
+}
+footer a{color:var(--fg-dim);transition:color .15s}
+footer a:hover{color:var(--fg)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-center{display:none}
+  .hero{grid-template-columns:1fr;padding:100px 20px 30px}
+  .hero-right{display:none}
+  .showcase-grid{grid-template-columns:1fr 1fr}
+  .showcase-grid .card:nth-child(1){grid-column:span 1}
+  .showcase-grid .card:nth-child(4){grid-row:span 1}
+  .showcase-grid .card:nth-child(7){grid-column:span 1}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .prompt-section{padding:0 20px 40px}
+  footer{flex-direction:column;gap:12px;text-align:center}
+}
+@media(max-width:480px){
+  .showcase-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
-  <!-- Aurora Background -->
-  <div class="aurora-bg">
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo"><span>◆</span> superdesign</div>
+  <div class="nav-center">
+    <a href="#showcase">library</a>
+    <a href="#why">how it works</a>
+    <a href="#">docs</a>
   </div>
-  <div class="grid-overlay"></div>
+  <div class="nav-right">
+    <a href="#">log in</a>
+    <button class="btn-sm">sign up</button>
+  </div>
+</nav>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="#" class="nav-brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
-      </svg>
-      Superdesign
-    </a>
-    <div class="nav-links">
-      <a class="nav-link" href="#prompts">Library</a>
-      <a class="nav-link" href="#features">Features</a>
-      <a class="nav-link" href="#">design.md</a>
-    </div>
-    <div class="nav-actions">
-      <button class="btn btn-ghost">Login</button>
-      <button class="btn btn-primary">Sign up</button>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero reveal">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      AI Design Agent — Now in Beta
-    </div>
-    <h1>Vibe it. Design it.</h1>
-    <p>Turn natural language into production-ready UI. One prompt. Infinite designs. Built for humans and AI agents.</p>
-    <div class="hero-actions">
-      <button class="btn btn-hero btn-hero-primary">Get Started Free</button>
-      <button class="btn btn-hero btn-hero-secondary">View Library</button>
-    </div>
-  </section>
-
-  <!-- Prompt Input -->
-  <div class="prompt-container reveal">
-    <div class="prompt-box">
-      <input type="text" placeholder="Describe the UI you want to build..." />
-      <button class="prompt-send">
-        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-      </button>
-    </div>
-    <div class="prompt-tools">
-      <button class="tool-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-        Recreate Screenshot
-      </button>
-      <button class="tool-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-        Import from Site
-      </button>
-      <button class="tool-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        Generate Image
-      </button>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>stop designing.<br>start <em>describing</em>.</h1>
+    <p>type what you want. get production UI. no figma, no figma plugin, no prompt engineering degree required.</p>
+    <div class="stats">
+      <div><strong>2.4M</strong>generations</div>
+      <div><strong>340K</strong>users</div>
+      <div><strong>12s</strong>avg. time</div>
     </div>
   </div>
-
-  <!-- Design Prompts Section -->
-  <section class="section" id="prompts">
-    <div class="section-header reveal">
-      <h2>Discover design prompts</h2>
-      <p>Explore curated prompts from the community. Remix, customize, ship.</p>
-    </div>
-
-    <div class="category-tabs reveal">
-      <button class="tab active">New</button>
-      <button class="tab">Style</button>
-      <button class="tab">Animation</button>
-      <button class="tab">UI Component</button>
-      <button class="tab">Landing Page</button>
-      <button class="tab">Presentations</button>
-      <button class="tab">Browse all</button>
-    </div>
-
-    <div class="cards-grid" id="cardsGrid">
-      <!-- Cards populated by JS -->
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="section" id="features">
-    <div class="section-header reveal">
-      <h2>Why Superdesign</h2>
-      <p>From prompt to production in seconds, not hours.</p>
-    </div>
-    <div class="features-grid reveal">
-      <div class="feature-card">
-        <div class="feature-icon">&#9889;</div>
-        <h3>Instant Generation</h3>
-        <p>Describe what you need in plain language. Get production-ready HTML, CSS, and React in seconds.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">&#127912;</div>
-        <h3>Design Systems</h3>
-        <p>Apply consistent themes, color palettes, and typography across every generated component.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">&#129302;</div>
-        <h3>Agent Compatible</h3>
-        <p>Built for Claude Code, Codex, and AI agents. Integrate design generation into any workflow.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">&#128640;</div>
-        <h3>One-Click Deploy</h3>
-        <p>Ship to Cloudflare Pages, Vercel, or any static host. From prompt to live URL in one step.</p>
+  <div class="hero-right">
+    <div class="terminal">
+      <div class="terminal-bar"><i></i><i></i><i></i><span>superdesign cli</span></div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> <span class="cmd">superdesign gen "dark saas landing page with aurora hero"</span></div>
+        <div class="out">analyzing prompt...</div>
+        <div class="out">selecting <span class="hl">glassmorphism</span> + <span class="hl">gradient mesh</span></div>
+        <div class="out">generating components...</div>
+        <div class="out">applying <span class="hl">dark theme</span> system</div>
+        <div class="ok">✓ built in 4.2s → ./dist/index.html</div>
+        <div><span class="prompt">$</span> <span class="blink">▌</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section class="cta reveal">
-    <div class="cta-box">
-      <h2>Start designing with AI</h2>
-      <p>Join thousands of designers and developers shipping faster with Superdesign.</p>
-      <button class="btn btn-hero btn-hero-primary">Try Superdesign Free</button>
+<!-- PROMPT BAR -->
+<div class="prompt-section">
+  <div class="prompt-bar">
+    <input type="text" placeholder="describe the interface you need...">
+    <button>generate</button>
+  </div>
+  <div class="prompt-actions">
+    <button>↗ from screenshot</button>
+    <button>◉ from URL</button>
+    <button>⌘ from figma</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div class="showcase-head">
+    <h2>community prompts</h2>
+    <span class="count">1,847 designs</span>
+  </div>
+  <div class="showcase-filters">
+    <button class="active">trending</button>
+    <button>landing pages</button>
+    <button>dashboards</button>
+    <button>components</button>
+    <button>animations</button>
+    <button>dark</button>
+    <button>minimal</button>
+  </div>
+  <div class="showcase-grid">
+    <div class="card" style="min-height:240px">
+      <div class="card-visual">
+        <div class="pattern pattern-gradient-1"></div>
+        <div class="label">portal hero — parting curtains reveal full-bleed image</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">portal hero, full-bleed reveal</span><span class="views">68K views</span></div>
     </div>
-  </section>
+    <div class="card" style="min-height:240px">
+      <div class="card-visual">
+        <div class="pattern pattern-noise"></div>
+        <div class="label">red noir — brutalist product page</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">red noir style</span><span class="views">87K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern pattern-grid"></div>
+        <div class="label">developer tool — terminal aesthetic</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">dev tool dark</span><span class="views">25K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern pattern-dots"></div>
+        <div class="label">glassmorphism — frosted cards over gradient mesh</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">glassmorphism</span><span class="views">157K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern pattern-gradient-2"></div>
+        <div class="label">kinetic orange — scroll-driven motion</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">kinetic orange</span><span class="views">43K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern pattern-diagonal"></div>
+        <div class="label">mosaic grid — architectural layout</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">mosaic architecture</span><span class="views">47K views</span></div>
+    </div>
+    <div class="card" style="min-height:200px">
+      <div class="card-visual">
+        <div class="pattern pattern-gradient-3"></div>
+        <div class="label">ascii hero — monochrome terminal art with parallax</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">ascii terminal art</span><span class="views">19K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern pattern-zigzag"></div>
+        <div class="label">softly — wellness app, warm palette</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">digital wellness</span><span class="views">45K views</span></div>
+    </div>
+    <div class="card">
+      <div class="card-visual">
+        <div class="pattern" style="background:repeating-linear-gradient(0deg,var(--border) 0,var(--border) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(90deg,var(--border) 0,var(--border) 1px,transparent 1px,transparent 8px)"></div>
+        <div class="label">high contrast — b&w with one accent</div>
+      </div>
+      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
+      <div class="card-meta"><span class="title">high contrast</span><span class="views">245K views</span></div>
+    </div>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 Superdesign. Built with AI. Designed for speed.</p>
-  </footer>
+<div class="divider"></div>
 
-  <script>
-    // Design prompts data
-    const prompts = [
-      { title: "Animated Landing Page: Portal Hero That Parts to Uncover a Full Bleed Image", remixes: "2.4k", views: "68k", gradient: "linear-gradient(135deg, #7c3aed, #06b6d4)" },
-      { title: "Serene — Find My Dream", remixes: "675", views: "12k", gradient: "linear-gradient(135deg, #ec4899, #f59e0b)" },
-      { title: "Red Noir Style", remixes: "5.8k", views: "87k", gradient: "linear-gradient(135deg, #ef4444, #7f1d1d)" },
-      { title: "Animated Aurora Background Hero: Dark Developer-Tool Landing Page", remixes: "2.8k", views: "25k", gradient: "linear-gradient(135deg, #06b6d4, #7c3aed)" },
-      { title: "Mosaic Grid Architecture Style", remixes: "4.3k", views: "47k", gradient: "linear-gradient(135deg, #8b5cf6, #06b6d4)" },
-      { title: "ASCII Hero", remixes: "633", views: "19k", gradient: "linear-gradient(135deg, #22c55e, #15803d)" },
-      { title: "Lumina SaaS Landing Page", remixes: "5.7k", views: "53k", gradient: "linear-gradient(135deg, #a78bfa, #f472b6)" },
-      { title: "Softly — Digital Wellness App", remixes: "4.6k", views: "45k", gradient: "linear-gradient(135deg, #fbbf24, #f97316)" },
-      { title: "Brutalist E-commerce Page", remixes: "3.6k", views: "57k", gradient: "linear-gradient(135deg, #374151, #111827)" },
-      { title: "Kinetic Orange Style", remixes: "4k", views: "43k", gradient: "linear-gradient(135deg, #f97316, #dc2626)" },
-      { title: "High Contrast Landing Page", remixes: "5.9k", views: "245k", gradient: "linear-gradient(135deg, #ffffff, #a3a3a3)" },
-      { title: "Glassmorphism Style", remixes: "4.9k", views: "157k", gradient: "linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05))" },
-    ];
+<!-- WHY -->
+<section class="why" id="why">
+  <h2>how it works</h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <span class="num">01</span>
+      <h3>describe</h3>
+      <p>write what you want in plain language. "dark dashboard with sidebar nav and data table". that's it.</p>
+    </div>
+    <div class="why-item">
+      <span class="num">02</span>
+      <h3>generate</h3>
+      <p>our model picks the right layout, color system, and component patterns. no prompt engineering needed.</p>
+    </div>
+    <div class="why-item">
+      <span class="num">03</span>
+      <h3>refine</h3>
+      <p>not right? iterate. "make the sidebar collapsible" or "swap to light mode". changes apply instantly.</p>
+    </div>
+    <div class="why-item">
+      <span class="num">04</span>
+      <h3>ship</h3>
+      <p>export clean HTML/CSS, React, or Vue. one-click deploy to cloudflare pages, vercel, or netlify.</p>
+    </div>
+  </div>
+</section>
 
-    const grid = document.getElementById('cardsGrid');
-    prompts.forEach((p, i) => {
-      const card = document.createElement('div');
-      card.className = 'design-card reveal';
-      card.style.transitionDelay = `${i * 60}ms`;
-      card.innerHTML = `
-        <div class="card-thumb" style="background: ${p.gradient}">
-          <div class="card-thumb-inner">Preview</div>
-        </div>
-        <div class="card-overlay">
-          <button class="card-btn card-btn-use">Use prompt</button>
-          <button class="card-btn card-btn-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-          </button>
-        </div>
-        <div class="card-content">
-          <h3>${p.title}</h3>
-          <div class="card-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              ${p.remixes} remixes
-            </span>
-            <span>${p.views} views</span>
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 superdesign — built by humans, accelerated by machines</span>
+  <div style="display:flex;gap:16px">
+    <a href="#">github</a>
+    <a href="#">twitter</a>
+    <a href="#">discord</a>
+  </div>
+</footer>
 
-    // Tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-      });
-    });
-
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Navbar background on scroll
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-      navbar.style.background = window.scrollY > 50
-        ? 'rgba(10,10,10,0.9)'
-        : 'rgba(10,10,10,0.7)';
-    });
-  </script>
-
+<script>
+// Tab switching
+document.querySelectorAll('.showcase-filters button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.showcase-filters button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
 </body>
 </html>
