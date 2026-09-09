@@ -4,488 +4,264 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Superdesign</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 *{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050505;--accent:#FF4500;--card:#111;--warm:#ffe0e0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;margin:0;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+.font-serif{font-family:'Playfair Display',serif}
 
-:root{
-  --bg:#0c0c0e;
-  --surface:#131316;
-  --surface-2:#1a1a1f;
-  --border:#232328;
-  --border-light:#2e2e35;
-  --fg:#e8e8ec;
-  --fg-dim:#8b8b97;
-  --fg-muted:#5c5c68;
-  --accent:#c8ff00;
-  --accent-dim:rgba(200,255,0,.12);
-  --violet:#a78bfa;
-  --cyan:#22d3ee;
-  --rose:#fb7185;
-  --mono:'JetBrains Mono',monospace;
-  --sans:'Space Grotesk',system-ui,sans-serif;
-}
+.noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
 
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.22,1,.36,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
 
-/* NOISE TEXTURE */
-body::before{
-  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity:.4
-}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+.float-up{animation:floatUp 12s ease-in-out infinite}
+.float-down{animation:floatDown 14s ease-in-out infinite}
 
 a{color:inherit;text-decoration:none}
-
-/* NAV */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 32px;height:52px;
-  background:rgba(12,12,14,.85);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-}
-.nav-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;letter-spacing:-.02em}
-.nav-logo span{color:var(--accent);font-size:18px;line-height:1}
-.nav-center{display:flex;gap:24px}
-.nav-center a{color:var(--fg-dim);font-weight:500;font-size:13px;transition:color .15s}
-.nav-center a:hover{color:var(--fg)}
-.nav-right{display:flex;gap:8px;align-items:center}
-.nav-right a{color:var(--fg-dim);font-size:13px;font-weight:500;padding:6px 12px;transition:color .15s}
-.nav-right a:hover{color:var(--fg)}
-.btn-sm{
-  padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;
-  background:var(--fg);color:var(--bg);border:none;cursor:pointer;
-  font-family:var(--sans);transition:opacity .15s;letter-spacing:.01em
-}
-.btn-sm:hover{opacity:.85}
-
-/* HERO — split layout, not centered */
-.hero{
-  padding:120px 32px 40px;
-  max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;
-}
-.hero-left h1{
-  font-size:clamp(38px,5.5vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;
-  margin-bottom:16px;
-}
-.hero-left h1 em{
-  font-style:normal;
-  background:linear-gradient(135deg,var(--accent),var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-left p{font-size:15px;color:var(--fg-dim);max-width:380px;line-height:1.6;margin-bottom:24px}
-.hero-left .stats{
-  display:flex;gap:32px;font-size:12px;color:var(--fg-muted);font-family:var(--mono);
-  text-transform:uppercase;letter-spacing:.08em
-}
-.hero-left .stats strong{color:var(--fg);font-size:20px;display:block;font-family:var(--sans);letter-spacing:-.02em;margin-bottom:2px}
-
-.hero-right{
-  position:relative;
-}
-.hero-right .terminal{
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  overflow:hidden;font-family:var(--mono);font-size:12px;
-}
-.terminal-bar{
-  display:flex;align-items:center;gap:6px;padding:10px 14px;
-  background:var(--surface-2);border-bottom:1px solid var(--border);
-}
-.terminal-bar i{width:10px;height:10px;border-radius:50%;display:block}
-.terminal-bar i:nth-child(1){background:#ff5f57}
-.terminal-bar i:nth-child(2){background:#febc2e}
-.terminal-bar i:nth-child(3){background:#28c840}
-.terminal-bar span{margin-left:8px;color:var(--fg-muted);font-size:11px}
-.terminal-body{padding:16px;line-height:1.8}
-.terminal-body .prompt{color:var(--accent)}
-.terminal-body .cmd{color:var(--fg)}
-.terminal-body .out{color:var(--fg-dim)}
-.terminal-body .hl{color:var(--violet)}
-.terminal-body .ok{color:#22c55e}
-.terminal-body .blink{animation:blink 1s step-end infinite}
-@keyframes blink{50%{opacity:0}}
-
-/* PROMPT BAR */
-.prompt-section{max-width:1100px;margin:0 auto;padding:0 32px 60px}
-.prompt-bar{
-  display:flex;gap:0;border:1px solid var(--border);border-radius:10px;
-  background:var(--surface);overflow:hidden;transition:border-color .2s
-}
-.prompt-bar:focus-within{border-color:var(--accent)}
-.prompt-bar input{
-  flex:1;background:transparent;border:none;outline:none;
-  padding:14px 18px;color:var(--fg);font-size:14px;font-family:var(--sans);
-}
-.prompt-bar input::placeholder{color:var(--fg-muted)}
-.prompt-bar button{
-  padding:14px 20px;background:var(--accent);color:var(--bg);border:none;
-  font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans);
-  transition:opacity .15s;white-space:nowrap
-}
-.prompt-bar button:hover{opacity:.85}
-.prompt-actions{
-  display:flex;gap:8px;margin-top:10px;flex-wrap:wrap
-}
-.prompt-actions button{
-  padding:5px 12px;border-radius:6px;border:1px solid var(--border);
-  background:transparent;color:var(--fg-dim);font-size:11px;font-weight:500;
-  cursor:pointer;font-family:var(--sans);transition:all .15s
-}
-.prompt-actions button:hover{border-color:var(--border-light);color:var(--fg)}
-
-/* DIVIDER */
-.divider{
-  max-width:1100px;margin:0 auto;padding:0 32px;
-  border-top:1px solid var(--border);
-}
-
-/* SHOWCASE — Masonry-ish, not perfect grid */
-.showcase{max-width:1100px;margin:0 auto;padding:60px 32px}
-.showcase-head{
-  display:flex;align-items:center;justify-content:space-between;margin-bottom:28px
-}
-.showcase-head h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
-.showcase-head .count{font-size:12px;color:var(--fg-muted);font-family:var(--mono)}
-
-.showcase-filters{
-  display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap
-}
-.showcase-filters button{
-  padding:6px 14px;border-radius:6px;border:1px solid var(--border);
-  background:transparent;color:var(--fg-dim);font-size:12px;font-weight:500;
-  cursor:pointer;font-family:var(--sans);transition:all .15s
-}
-.showcase-filters button.active{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.showcase-filters button:hover:not(.active){border-color:var(--border-light);color:var(--fg)}
-
-.showcase-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-
-/* ASYMMETRIC CARD SIZING */
-.showcase-grid .card:nth-child(1){grid-column:span 2}
-.showcase-grid .card:nth-child(4){grid-row:span 2}
-.showcase-grid .card:nth-child(7){grid-column:span 2}
-
-.card{
-  position:relative;border-radius:10px;overflow:hidden;
-  border:1px solid var(--border);background:var(--surface);
-  cursor:pointer;transition:all .25s ease;
-  min-height:200px;
-}
-.card:hover{border-color:var(--border-light);transform:translateY(-2px)}
-.card-visual{
-  width:100%;height:100%;min-height:inherit;position:relative;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-.card-visual .pattern{
-  position:absolute;inset:0;opacity:.6;
-}
-.card-visual .label{
-  position:relative;z-index:2;font-size:13px;font-weight:500;
-  color:var(--fg-dim);text-align:center;padding:20px;
-}
-
-/* CARD PATTERNS — each unique */
-.pattern-grid{
-  background-image:
-    linear-gradient(var(--border) 1px,transparent 1px),
-    linear-gradient(90deg,var(--border) 1px,transparent 1px);
-  background-size:20px 20px;
-}
-.pattern-dots{
-  background-image:radial-gradient(circle,var(--fg-muted) 1px,transparent 1px);
-  background-size:16px 16px;
-}
-.pattern-diagonal{
-  background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,var(--border) 10px,var(--border) 11px);
-}
-.pattern-gradient-1{background:linear-gradient(135deg,var(--violet),var(--cyan))}
-.pattern-gradient-2{background:linear-gradient(135deg,var(--rose),var(--accent))}
-.pattern-gradient-3{background:linear-gradient(160deg,#1e1b4b,#312e81,#1e1b4b)}
-.pattern-zigzag{
-  background:
-    linear-gradient(135deg,var(--surface-2) 25%,transparent 25%) -20px 0,
-    linear-gradient(225deg,var(--surface-2) 25%,transparent 25%) -20px 0,
-    linear-gradient(315deg,var(--surface-2) 25%,transparent 25%),
-    linear-gradient(45deg,var(--surface-2) 25%,transparent 25%);
-  background-size:40px 40px;
-  background-color:var(--surface);
-}
-.pattern-noise{
-  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:256px 256px;
-}
-
-.card-overlay{
-  position:absolute;top:10px;right:10px;display:flex;gap:6px;
-  opacity:0;transform:translateY(-4px);transition:all .2s;z-index:3
-}
-.card:hover .card-overlay{opacity:1;transform:translateY(0)}
-.card-overlay button{
-  padding:4px 10px;border-radius:5px;border:none;font-size:11px;
-  font-weight:600;cursor:pointer;font-family:var(--sans);transition:opacity .15s
-}
-.card-overlay .use{background:var(--accent);color:var(--bg)}
-.card-overlay .more{background:rgba(0,0,0,.6);color:white;width:26px;height:26px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-size:14px}
-
-.card-meta{
-  position:absolute;bottom:0;left:0;right:0;padding:10px 14px;
-  background:linear-gradient(transparent,rgba(12,12,14,.9));
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:11px;color:var(--fg-muted);z-index:2
-}
-.card-meta .title{color:var(--fg-dim);font-weight:500;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card-meta .views{font-family:var(--mono);font-size:10px}
-
-/* WHY SECTION — horizontal, not centered grid */
-.why{max-width:1100px;margin:0 auto;padding:60px 32px}
-.why h2{font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:32px}
-.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:10px;overflow:hidden}
-.why-item{
-  padding:28px 24px;background:var(--surface);
-}
-.why-item .num{
-  font-family:var(--mono);font-size:11px;color:var(--accent);
-  margin-bottom:12px;display:block;letter-spacing:.05em
-}
-.why-item h3{font-size:14px;font-weight:600;margin-bottom:8px}
-.why-item p{font-size:12px;color:var(--fg-dim);line-height:1.6}
-
-/* FOOTER */
-footer{
-  max-width:1100px;margin:0 auto;padding:40px 32px;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:12px;color:var(--fg-muted);
-}
-footer a{color:var(--fg-dim);transition:color .15s}
-footer a:hover{color:var(--fg)}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .nav-center{display:none}
-  .hero{grid-template-columns:1fr;padding:100px 20px 30px}
-  .hero-right{display:none}
-  .showcase-grid{grid-template-columns:1fr 1fr}
-  .showcase-grid .card:nth-child(1){grid-column:span 1}
-  .showcase-grid .card:nth-child(4){grid-row:span 1}
-  .showcase-grid .card:nth-child(7){grid-column:span 1}
-  .why-grid{grid-template-columns:1fr 1fr}
-  .prompt-section{padding:0 20px 40px}
-  footer{flex-direction:column;gap:12px;text-align:center}
-}
-@media(max-width:480px){
-  .showcase-grid{grid-template-columns:1fr}
-  .why-grid{grid-template-columns:1fr}
-}
 </style>
 </head>
 <body>
+<div class="noise"></div>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-logo"><span>◆</span> superdesign</div>
-  <div class="nav-center">
-    <a href="#showcase">library</a>
-    <a href="#why">how it works</a>
-    <a href="#">docs</a>
-  </div>
-  <div class="nav-right">
-    <a href="#">log in</a>
-    <button class="btn-sm">sign up</button>
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;transition:all .5s;padding:28px 0" id="nav">
+  <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between">
+    <a href="#" class="font-serif" style="font-size:22px;font-weight:700;letter-spacing:-.03em">Superdesign.</a>
+    <div style="display:flex;gap:32px;align-items:center">
+      <a href="#works" style="font-size:13px;color:#999;transition:color .3s">Works</a>
+      <a href="#about" style="font-size:13px;color:#999;transition:color .3s">About</a>
+      <a href="#contact" style="display:inline-flex;align-items:center;padding:10px 24px;border-radius:999px;font-size:13px;font-weight:500;background:#fff;color:#000;transition:all .3s">Start Project</a>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <h1>stop designing.<br>start <em>describing</em>.</h1>
-    <p>type what you want. get production UI. no figma, no figma plugin, no prompt engineering degree required.</p>
-    <div class="stats">
-      <div><strong>2.4M</strong>generations</div>
-      <div><strong>340K</strong>users</div>
-      <div><strong>12s</strong>avg. time</div>
+<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 32px 80px">
+  <!-- Atmosphere gradient -->
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none">
+    <div style="position:absolute;top:-20%;left:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.15),transparent 70%);filter:blur(80px)"></div>
+    <div style="position:absolute;bottom:-20%;right:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.08),transparent 70%);filter:blur(60px)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(transparent 60%,var(--bg))"></div>
+  </div>
+
+  <!-- Dot grid -->
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px"></div>
+
+  <!-- Floating elements -->
+  <div class="float-up" style="position:absolute;left:5%;top:15%;width:180px;height:240px;border-radius:16px;border:1px solid rgba(255,69,0,.2);background:rgba(255,69,0,.04);backdrop-filter:blur(4px);z-index:1;display:flex;align-items:center;justify-content:center">
+    <div style="width:60%;height:60%;border-radius:8px;border:1px solid rgba(255,69,0,.15)"></div>
+  </div>
+  <div class="float-down" style="position:absolute;right:8%;bottom:20%;width:140px;height:200px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);backdrop-filter:blur(4px);z-index:1"></div>
+
+  <div style="position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto">
+    <div class="reveal">
+      <h1 class="font-serif" style="font-size:clamp(42px,7vw,80px);font-weight:500;line-height:1.05;letter-spacing:-.03em;color:var(--warm);text-shadow:0 0 40px rgba(255,255,255,.3);mix-blend-overlay">
+        Superdesign.<br><span style="font-weight:400;font-style:italic">The design agent.</span>
+      </h1>
+    </div>
+    <div class="reveal" style="transition-delay:200ms">
+      <p style="font-size:clamp(14px,2vw,18px);color:rgba(255,224,224,.7);max-width:480px;margin:28px auto 0;font-weight:300;line-height:1.7;letter-spacing:.02em;mix-blend-overlay;text-shadow:0 0 20px rgba(255,255,255,.2)">
+        We turn the unseen into the unforgettable. From prompt to production UI in seconds, not hours.
+      </p>
+    </div>
+    <div class="reveal" style="transition-delay:400ms;margin-top:48px">
+      <a href="#works" style="display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);backdrop-filter:blur(8px);font-size:13px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.08em;text-transform:uppercase;transition:all .3s">
+        Enter the Void
+      </a>
+      <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-top:32px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;font-family:monospace">
+        <span id="clock">00:00</span>
+        <span style="width:1px;height:12px;background:rgba(255,255,255,.15)"></span>
+        <span>Everywhere</span>
+      </div>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="terminal">
-      <div class="terminal-bar"><i></i><i></i><i></i><span>superdesign cli</span></div>
-      <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="cmd">superdesign gen "dark saas landing page with aurora hero"</span></div>
-        <div class="out">analyzing prompt...</div>
-        <div class="out">selecting <span class="hl">glassmorphism</span> + <span class="hl">gradient mesh</span></div>
-        <div class="out">generating components...</div>
-        <div class="out">applying <span class="hl">dark theme</span> system</div>
-        <div class="ok">✓ built in 4.2s → ./dist/index.html</div>
-        <div><span class="prompt">$</span> <span class="blink">▌</span></div>
+</section>
+
+<!-- MISSION -->
+<section id="about" style="padding:120px 32px;position:relative">
+  <div style="max-width:900px;margin:0 auto;text-align:center">
+    <div class="reveal">
+      <h2 class="font-serif" style="font-size:clamp(28px,4.5vw,56px);color:rgba(255,255,255,.85);line-height:1.15;margin-bottom:40px">
+        We design the negative space<br>where your brand truly lives.
+      </h2>
+    </div>
+    <div class="reveal" style="transition-delay:150ms">
+      <p style="font-size:clamp(16px,2vw,22px);color:#555;line-height:1.7;font-weight:300;max-width:600px;margin:0 auto">
+        Elegance is refusal. We remove the noise so your message resonates with absolute clarity.
+      </p>
+    </div>
+  </div>
+
+  <!-- Logo strip -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:600px;margin:80px auto 0;text-align:center;opacity:.3" class="reveal" id="logos">
+    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">VOGUE</div>
+    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">TESLA</div>
+    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">MOOMA</div>
+    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">AESOP</div>
+  </div>
+</section>
+
+<!-- CARDS / WORKS -->
+<section id="works" style="padding:120px 32px;position:relative;overflow:hidden">
+  <div style="max-width:1000px;margin:0 auto;position:relative;z-index:2">
+    <div class="reveal" style="text-align:center;margin-bottom:80px">
+      <h2 class="font-serif" style="font-size:clamp(36px,6vw,72px);line-height:1.05">
+        Define your<br><span style="font-style:italic">digital presence</span>
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <!-- Card 1: Red -->
+      <div class="reveal float-down" style="transition-delay:0ms">
+        <div style="background:var(--accent);border-radius:24px;padding:clamp(28px,4vw,48px);aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;transition:all .5s;cursor:pointer;box-shadow:0 20px 60px rgba(255,69,0,.15)" onmouseover="this.style.boxShadow='0 30px 80px rgba(255,69,0,.3)'" onmouseout="this.style.boxShadow='0 20px 60px rgba(255,69,0,.15)'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px">&#9733;</div>
+            <span style="font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.2);padding:4px 12px;border-radius:999px;color:rgba(0,0,0,.7)">01</span>
+          </div>
+          <div>
+            <h3 class="font-serif" style="font-size:clamp(28px,3.5vw,48px);color:#000;line-height:1;margin-bottom:12px;letter-spacing:-.02em">
+              Emerging<br>Talent
+            </h3>
+            <p style="font-size:15px;color:rgba(0,0,0,.65);line-height:1.5">You have the spark. We provide the atmosphere for it to ignite.</p>
+          </div>
+          <div style="width:100%;height:1px;background:rgba(0,0,0,.1)"></div>
+        </div>
+      </div>
+
+      <!-- Card 2: Dark -->
+      <div class="reveal float-up" style="transition-delay:150ms;margin-top:60px">
+        <div style="background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:clamp(28px,4vw,48px);aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;transition:all .5s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.5)">&#9670;</div>
+            <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.4)">02</span>
+          </div>
+          <div>
+            <h3 class="font-serif" style="font-size:clamp(28px,3.5vw,48px);color:rgba(255,255,255,.9);line-height:1;margin-bottom:12px;letter-spacing:-.02em">
+              Digital<br>Rebirth
+            </h3>
+            <p style="font-size:15px;color:rgba(255,255,255,.4);line-height:1.5">We deconstruct to reconstruct. Every pixel serves a purpose.</p>
+          </div>
+          <div style="width:100%;height:1px;background:rgba(255,255,255,.06)"></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PROMPT BAR -->
-<div class="prompt-section">
-  <div class="prompt-bar">
-    <input type="text" placeholder="describe the interface you need...">
-    <button>generate</button>
+<div style="max-width:640px;margin:0 auto;padding:0 32px 80px">
+  <div class="reveal" style="display:flex;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);transition:border-color .3s" onfocus-within="this.style.borderColor='var(--accent)'" id="promptWrap">
+    <input type="text" placeholder="describe the interface you need..." style="flex:1;background:transparent;border:none;outline:none;padding:16px 20px;color:#fff;font-size:14px;font-family:'Inter',sans-serif">
+    <button style="padding:16px 24px;background:var(--accent);color:#fff;border:none;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">generate</button>
   </div>
-  <div class="prompt-actions">
-    <button>↗ from screenshot</button>
-    <button>◉ from URL</button>
-    <button>⌘ from figma</button>
+  <div class="reveal" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;transition-delay:100ms">
+    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#8599; from screenshot</button>
+    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#9673; from URL</button>
+    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#8984; from figma</button>
   </div>
 </div>
 
-<div class="divider"></div>
-
 <!-- SHOWCASE -->
-<section class="showcase" id="showcase">
-  <div class="showcase-head">
-    <h2>community prompts</h2>
-    <span class="count">1,847 designs</span>
+<section style="padding:0 32px 100px;max-width:1000px;margin:0 auto">
+  <div class="reveal" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+    <h2 class="font-serif" style="font-size:24px;font-weight:500">Selected Works</h2>
+    <span style="font-size:12px;color:rgba(255,255,255,.3);font-family:monospace">1,847 designs</span>
   </div>
-  <div class="showcase-filters">
-    <button class="active">trending</button>
-    <button>landing pages</button>
-    <button>dashboards</button>
-    <button>components</button>
-    <button>animations</button>
-    <button>dark</button>
-    <button>minimal</button>
-  </div>
-  <div class="showcase-grid">
-    <div class="card" style="min-height:240px">
-      <div class="card-visual">
-        <div class="pattern pattern-gradient-1"></div>
-        <div class="label">portal hero — parting curtains reveal full-bleed image</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">portal hero, full-bleed reveal</span><span class="views">68K views</span></div>
-    </div>
-    <div class="card" style="min-height:240px">
-      <div class="card-visual">
-        <div class="pattern pattern-noise"></div>
-        <div class="label">red noir — brutalist product page</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">red noir style</span><span class="views">87K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern pattern-grid"></div>
-        <div class="label">developer tool — terminal aesthetic</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">dev tool dark</span><span class="views">25K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern pattern-dots"></div>
-        <div class="label">glassmorphism — frosted cards over gradient mesh</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">glassmorphism</span><span class="views">157K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern pattern-gradient-2"></div>
-        <div class="label">kinetic orange — scroll-driven motion</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">kinetic orange</span><span class="views">43K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern pattern-diagonal"></div>
-        <div class="label">mosaic grid — architectural layout</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">mosaic architecture</span><span class="views">47K views</span></div>
-    </div>
-    <div class="card" style="min-height:200px">
-      <div class="card-visual">
-        <div class="pattern pattern-gradient-3"></div>
-        <div class="label">ascii hero — monochrome terminal art with parallax</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">ascii terminal art</span><span class="views">19K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern pattern-zigzag"></div>
-        <div class="label">softly — wellness app, warm palette</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">digital wellness</span><span class="views">45K views</span></div>
-    </div>
-    <div class="card">
-      <div class="card-visual">
-        <div class="pattern" style="background:repeating-linear-gradient(0deg,var(--border) 0,var(--border) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(90deg,var(--border) 0,var(--border) 1px,transparent 1px,transparent 8px)"></div>
-        <div class="label">high contrast — b&w with one accent</div>
-      </div>
-      <div class="card-overlay"><button class="use">use</button><button class="more">⋯</button></div>
-      <div class="card-meta"><span class="title">high contrast</span><span class="views">245K views</span></div>
-    </div>
-  </div>
-</section>
 
-<div class="divider"></div>
+  <div style="display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap" class="reveal">
+    <button style="padding:7px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">trending</button>
+    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">landing pages</button>
+    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">dashboards</button>
+    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">dark</button>
+    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">minimal</button>
+  </div>
 
-<!-- WHY -->
-<section class="why" id="why">
-  <h2>how it works</h2>
-  <div class="why-grid">
-    <div class="why-item">
-      <span class="num">01</span>
-      <h3>describe</h3>
-      <p>write what you want in plain language. "dark dashboard with sidebar nav and data table". that's it.</p>
-    </div>
-    <div class="why-item">
-      <span class="num">02</span>
-      <h3>generate</h3>
-      <p>our model picks the right layout, color system, and component patterns. no prompt engineering needed.</p>
-    </div>
-    <div class="why-item">
-      <span class="num">03</span>
-      <h3>refine</h3>
-      <p>not right? iterate. "make the sidebar collapsible" or "swap to light mode". changes apply instantly.</p>
-    </div>
-    <div class="why-item">
-      <span class="num">04</span>
-      <h3>ship</h3>
-      <p>export clean HTML/CSS, React, or Vue. one-click deploy to cloudflare pages, vercel, or netlify.</p>
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="grid">
+    <!-- JS will populate -->
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <span>© 2026 superdesign — built by humans, accelerated by machines</span>
-  <div style="display:flex;gap:16px">
-    <a href="#">github</a>
-    <a href="#">twitter</a>
-    <a href="#">discord</a>
+<footer style="border-top:1px solid rgba(255,255,255,.06);padding:40px 32px;max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
+  <span style="font-size:12px;color:rgba(255,255,255,.25)">&copy; 2026 superdesign</span>
+  <div style="display:flex;gap:20px">
+    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">github</a>
+    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">twitter</a>
+    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">discord</a>
   </div>
 </footer>
 
 <script>
+// Card data
+const cards=[
+  {title:"portal hero, full-bleed reveal",views:"68K",bg:"linear-gradient(135deg,#FF4500,#b91c1c)",h:220,span:2},
+  {title:"red noir style",views:"87K",bg:"linear-gradient(135deg,#1a0505,#2d0a0a)",h:220,span:1},
+  {title:"glassmorphism",views:"157K",bg:"linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02))",h:200,span:1},
+  {title:"kinetic orange",views:"43K",bg:"linear-gradient(135deg,#FF4500,#f97316)",h:200,span:1},
+  {title:"mosaic architecture",views:"47K",bg:"repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.04) 10px,rgba(255,255,255,.04) 11px)",h:200,span:1},
+  {title:"ascii terminal art",views:"19K",bg:"linear-gradient(160deg,#0a0a0a,#1a1a1a)",h:220,span:2},
+  {title:"digital wellness",views:"45K",bg:"linear-gradient(135deg,#2d1515,#1a0a0a)",h:180,span:1},
+  {title:"high contrast",views:"245K",bg:"linear-gradient(135deg,#111,#0a0a0a)",h:180,span:1},
+  {title:"dev tool dark",views:"25K",bg:"radial-gradient(circle at 30% 50%,rgba(255,69,0,.08),transparent 60%)",h:180,span:1},
+];
+
+const grid=document.getElementById('grid');
+cards.forEach((c,i)=>{
+  const card=document.createElement('div');
+  card.className='reveal';
+  card.style.cssText=`grid-column:span ${c.span||1};transition-delay:${i*80}ms`;
+  card.innerHTML=`
+    <div style="position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:all .3s;height:${c.h}px;background:${c.bg}" 
+         onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-3px)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,.3);font-weight:500">${c.title}</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(5,5,5,.9));display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:12px;color:rgba(255,255,255,.5);font-weight:500">${c.title}</span>
+        <span style="font-size:10px;color:rgba(255,255,255,.25);font-family:monospace">${c.views} views</span>
+      </div>
+      <div style="position:absolute;top:10px;right:10px;opacity:0;transition:opacity .2s" class="card-ov">
+        <button style="padding:4px 12px;border-radius:6px;background:var(--accent);color:#fff;border:none;font-size:11px;font-weight:600;cursor:pointer">use</button>
+      </div>
+    </div>`;
+  card.querySelector('[style*="border-radius:14px"]').addEventListener('mouseover',function(){card.querySelector('.card-ov').style.opacity='1'});
+  card.querySelector('[style*="border-radius:14px"]').addEventListener('mouseout',function(){card.querySelector('.card-ov').style.opacity='0'});
+  grid.appendChild(card);
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Clock
+function updClock(){const d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true})}
+updClock();setInterval(updClock,60000);
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav');
+  nav.style.background=window.scrollY>80?'rgba(5,5,5,.9)':'transparent';
+  nav.style.backdropFilter=window.scrollY>80?'blur(16px)':'none';
+  nav.style.borderBottom=window.scrollY>80?'1px solid rgba(255,255,255,.06)':'none';
+});
+
 // Tab switching
-document.querySelectorAll('.showcase-filters button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.showcase-filters button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  });
+document.querySelectorAll('#works~div button, [style*="trending"]').forEach(btn=>{
+  if(btn.parentElement&&btn.parentElement.style.display==='flex'){
+    btn.addEventListener('click',()=>{
+      btn.parentElement.querySelectorAll('button').forEach(b=>{
+        b.style.background='transparent';b.style.color='rgba(255,255,255,.4)';b.style.borderColor='rgba(255,255,255,.08)';b.style.border='1px solid rgba(255,255,255,.08)';
+      });
+      btn.style.background='var(--accent)';btn.style.color='#fff';btn.style.border='none';
+    });
+  }
 });
 </script>
 </body>
