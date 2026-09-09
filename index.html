@@ -149,6 +149,21 @@ footer span,footer a{color:#777!important}
 </style>
 </head>
 <body>
+<style>
+/* Local premium correction: tighter editorial rhythm and real emblem watermark */
+:root{--mpp-ground:#0a0c0e;--mpp-panel:#101317;--mpp-ink:#ede7dc;--mpp-muted:#9ea5a8;--mpp-amber:#e8913c;--mpp-teal:#2e6b72;--mpp-rule:rgba(237,231,220,.13)}
+body{background:var(--mpp-ground)!important;color:var(--mpp-ink)!important}
+body:before{content:'';position:fixed;inset:0;z-index:-2;background-image:url('assets/mpp-emblem.jpg');background-repeat:no-repeat;background-position:78% 16%;background-size:min(720px,58vw);opacity:.055;filter:grayscale(.72) contrast(.82);pointer-events:none}
+body:after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,12,14,.98) 0%,rgba(10,12,14,.88) 46%,rgba(10,12,14,.7) 100%);pointer-events:none}
+#nav{background:rgba(10,12,14,.78)!important;border-color:var(--mpp-rule)!important}
+#about,#research,#facilities,#team,#contact{padding-top:clamp(64px,8vw,112px)!important;padding-bottom:clamp(64px,8vw,112px)!important;background:transparent!important;border-top:1px solid var(--mpp-rule)!important}
+#about>div>div:first-child,#research>div>div:first-child,#facilities>div>div:first-child,#team>div>div:first-child{margin-bottom:32px!important}
+#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:28px!important}
+#research>div>div:nth-child(3){margin-top:28px!important}
+#facilities>div>div:nth-child(2){gap:14px!important}
+#team>div>div:nth-child(2){gap:10px!important}
+.premium-icon{filter:drop-shadow(0 0 4px rgba(228,91,53,.14))}
+</style>
 <div class="noise"></div>
 
 <!-- NAV -->
