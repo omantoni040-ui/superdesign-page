@@ -24,7 +24,7 @@
     .word-left{transform:translateX(calc(var(--spread) * -9vw)) scale(var(--title-scale));letter-spacing:calc(-.075em + var(--spread) * .055em)}
     .word-right{transform:translateX(calc(var(--spread) * 9vw)) scale(var(--title-scale));letter-spacing:calc(-.075em + var(--spread) * .055em)}
     .hero-emblem{transform:translate(calc(var(--portal) * 2.5vw),calc(var(--portal) * -2vh)) scale(calc(1 + var(--portal) * .08))}
-    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
     .reveal.active{opacity:1;transform:none}
     .deck-card{touch-action:pan-y;user-select:none;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .35s ease}
     .deck-card.dragging{transition:none;cursor:grabbing}
@@ -190,10 +190,7 @@
     window.addEventListener('scroll',updatePortal,{passive:true});
     window.addEventListener('resize',updatePortal);
 
-    if(!reduceMotion){
-      const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('active');observer.unobserve(entry.target)}}),{threshold:.12});
-      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-    }else{document.querySelectorAll('.reveal').forEach(el=>el.classList.add('active'))}
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('active'));
 
     const deck=document.getElementById('research-deck');
     const counter=document.getElementById('deck-counter');
