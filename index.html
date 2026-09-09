@@ -3,265 +3,430 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Superdesign</title>
+<title>Lab MPP — Marine Power Propulsion | Teknik Sistem Perkapalan ITS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#050505;--accent:#FF4500;--card:#111;--warm:#ffe0e0}
+:root{--bg:#050505;--accent:#FF4500;--card:#111;--warm:#ffe0e0;--border:rgba(255,255,255,.06)}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;margin:0;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--accent);color:#fff}
 .font-serif{font-family:'Playfair Display',serif}
-
 .noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
-
 .reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.22,1,.36,1)}
 .reveal.active{opacity:1;transform:translateY(0)}
-
-@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
-@keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(20px)}}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@keyframes floatDown{0%,100%{transform:translateY(0)}50%{transform:translateY(15px)}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 .float-up{animation:floatUp 12s ease-in-out infinite}
 .float-down{animation:floatDown 14s ease-in-out infinite}
-
 a{color:inherit;text-decoration:none}
+.dot{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 8px rgba(34,197,94,.5)}
 </style>
 </head>
 <body>
 <div class="noise"></div>
 
 <!-- NAV -->
-<nav style="position:fixed;top:0;left:0;right:0;z-index:100;transition:all .5s;padding:28px 0" id="nav">
-  <div style="max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between">
-    <a href="#" class="font-serif" style="font-size:22px;font-weight:700;letter-spacing:-.03em">Superdesign.</a>
-    <div style="display:flex;gap:32px;align-items:center">
-      <a href="#works" style="font-size:13px;color:#999;transition:color .3s">Works</a>
-      <a href="#about" style="font-size:13px;color:#999;transition:color .3s">About</a>
-      <a href="#contact" style="display:inline-flex;align-items:center;padding:10px 24px;border-radius:999px;font-size:13px;font-weight:500;background:#fff;color:#000;transition:all .3s">Start Project</a>
+<nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:100;transition:all .5s;padding:20px 0">
+<div style="max-width:1100px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">M</div>
+    <div>
+      <div style="font-size:14px;font-weight:600;letter-spacing:-.02em">Lab MPP</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.03em">Marine Power Propulsion</div>
     </div>
   </div>
+  <div style="display:flex;gap:28px;align-items:center" id="navLinks">
+    <a href="#about" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Tentang</a>
+    <a href="#research" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Riset</a>
+    <a href="#facilities" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Fasilitas</a>
+    <a href="#team" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Tim</a>
+    <a href="#contact" style="font-size:13px;color:#999;transition:color .3s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#999'">Kontak</a>
+    <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.3)"><span class="dot"></span> Active</span>
+  </div>
+</div>
 </nav>
 
 <!-- HERO -->
 <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 32px 80px">
-  <!-- Atmosphere gradient -->
   <div style="position:absolute;inset:0;z-index:0;pointer-events:none">
-    <div style="position:absolute;top:-20%;left:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.15),transparent 70%);filter:blur(80px)"></div>
-    <div style="position:absolute;bottom:-20%;right:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.08),transparent 70%);filter:blur(60px)"></div>
+    <div style="position:absolute;top:-20%;left:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.12),transparent 70%);filter:blur(80px)"></div>
+    <div style="position:absolute;bottom:-20%;right:-10%;width:50vw;height:50vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.06),transparent 70%);filter:blur(60px)"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(transparent 60%,var(--bg))"></div>
   </div>
-
-  <!-- Dot grid -->
-  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.06;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px"></div>
-
-  <!-- Floating elements -->
-  <div class="float-up" style="position:absolute;left:5%;top:15%;width:180px;height:240px;border-radius:16px;border:1px solid rgba(255,69,0,.2);background:rgba(255,69,0,.04);backdrop-filter:blur(4px);z-index:1;display:flex;align-items:center;justify-content:center">
-    <div style="width:60%;height:60%;border-radius:8px;border:1px solid rgba(255,69,0,.15)"></div>
-  </div>
-  <div class="float-down" style="position:absolute;right:8%;bottom:20%;width:140px;height:200px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);backdrop-filter:blur(4px);z-index:1"></div>
+  <div style="position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.04;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:32px 32px"></div>
+  <div class="float-up" style="position:absolute;left:5%;top:18%;width:120px;height:160px;border-radius:12px;border:1px solid rgba(255,69,0,.15);background:rgba(255,69,0,.03);z-index:1"></div>
+  <div class="float-down" style="position:absolute;right:8%;bottom:22%;width:100px;height:140px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.01);z-index:1"></div>
 
   <div style="position:relative;z-index:2;text-align:center;max-width:800px;margin:0 auto">
     <div class="reveal">
-      <h1 class="font-serif" style="font-size:clamp(42px,7vw,80px);font-weight:500;line-height:1.05;letter-spacing:-.03em;color:var(--warm);text-shadow:0 0 40px rgba(255,255,255,.3);mix-blend-overlay">
-        Superdesign.<br><span style="font-weight:400;font-style:italic">The design agent.</span>
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.05em;text-transform:uppercase;margin-bottom:28px">
+        <span class="dot"></span> Departemen Teknik Sistem Perkapalan — FTK ITS
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:100ms">
+      <h1 class="font-serif" style="font-size:clamp(38px,6.5vw,72px);font-weight:500;line-height:1.05;letter-spacing:-.03em;color:var(--warm);text-shadow:0 0 40px rgba(255,255,255,.25);mix-blend-overlay">
+        Marine Power<br><span style="font-style:italic;font-weight:400">Propulsion</span> Laboratory
       </h1>
     </div>
     <div class="reveal" style="transition-delay:200ms">
-      <p style="font-size:clamp(14px,2vw,18px);color:rgba(255,224,224,.7);max-width:480px;margin:28px auto 0;font-weight:300;line-height:1.7;letter-spacing:.02em;mix-blend-overlay;text-shadow:0 0 20px rgba(255,255,255,.2)">
-        We turn the unseen into the unforgettable. From prompt to production UI in seconds, not hours.
+      <p style="font-size:clamp(14px,1.8vw,17px);color:rgba(255,224,224,.6);max-width:520px;margin:24px auto 0;font-weight:300;line-height:1.7;letter-spacing:.01em;mix-blend-overlay">
+        Pusat studi dan penelitian sistem propulsi kapal, mesin marine, dinamika fluida turbomachinery, serta optimasi efisiensi energi maritim.
       </p>
     </div>
-    <div class="reveal" style="transition-delay:400ms;margin-top:48px">
-      <a href="#works" style="display:inline-flex;align-items:center;gap:8px;padding:12px 32px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);backdrop-filter:blur(8px);font-size:13px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.08em;text-transform:uppercase;transition:all .3s">
-        Enter the Void
+    <div class="reveal" style="transition-delay:350ms;margin-top:40px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="#research" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:999px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;letter-spacing:.02em;transition:all .3s;box-shadow:0 0 30px rgba(255,69,0,.2)">
+        Jelajahi Riset
       </a>
-      <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-top:32px;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;font-family:monospace">
-        <span id="clock">00:00</span>
-        <span style="width:1px;height:12px;background:rgba(255,255,255,.15)"></span>
-        <span>Everywhere</span>
+      <a href="#about" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(8px);color:rgba(255,255,255,.7);font-size:13px;font-weight:500;transition:all .3s">
+        Tentang Lab
+      </a>
+    </div>
+    <div class="reveal" style="transition-delay:500ms;display:flex;gap:40px;justify-content:center;margin-top:60px">
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter1">0</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Publikasi</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter2">0</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Peneliti Aktif</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.08)"></div>
+      <div style="text-align:center">
+        <div style="font-size:28px;font-weight:700;font-family:'Playfair Display',serif;color:var(--accent)" id="counter3">0</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Proyek Riset</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MISSION -->
-<section id="about" style="padding:120px 32px;position:relative">
-  <div style="max-width:900px;margin:0 auto;text-align:center">
-    <div class="reveal">
-      <h2 class="font-serif" style="font-size:clamp(28px,4.5vw,56px);color:rgba(255,255,255,.85);line-height:1.15;margin-bottom:40px">
-        We design the negative space<br>where your brand truly lives.
-      </h2>
-    </div>
-    <div class="reveal" style="transition-delay:150ms">
-      <p style="font-size:clamp(16px,2vw,22px);color:#555;line-height:1.7;font-weight:300;max-width:600px;margin:0 auto">
-        Elegance is refusal. We remove the noise so your message resonates with absolute clarity.
+<!-- ABOUT -->
+<section id="about" style="padding:100px 32px;position:relative">
+<div style="max-width:1100px;margin:0 auto">
+  <div class="reveal" style="text-align:center;margin-bottom:60px">
+    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Tentang Kami</div>
+    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15;max-width:700px;margin:0 auto">
+      Laboratorium Marine Power Propulsion
+    </h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center" class="reveal">
+    <div>
+      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:20px">
+        Lab MPP merupakan bagian dari <strong style="color:rgba(255,255,255,.8)">Departemen Teknik Sistem Perkapalan</strong>, Fakultas Teknologi Kelautan, Institut Teknologi Sepuluh Nopember (ITS) Surabaya.
+      </p>
+      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:20px">
+        Fokus utama lab adalah penelitian dan pengembangan sistem propulsi kapal, yang mencakup desain dan analisis <strong style="color:rgba(255,255,255,.8)">screw propeller</strong>, sistem propulsi hybrid dan electric, serta optimasi performa mesin marine.
+      </p>
+      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.8">
+        Lab MPP mendukung kegiatan akademik melalui praktikum, penelitian tugas akhir, serta kolaborasi riset dengan industri maritim nasional dan internasional.
       </p>
     </div>
-  </div>
-
-  <!-- Logo strip -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:600px;margin:80px auto 0;text-align:center;opacity:.3" class="reveal" id="logos">
-    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">VOGUE</div>
-    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">TESLA</div>
-    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">MOOMA</div>
-    <div style="font-size:14px;font-weight:600;letter-spacing:.15em">AESOP</div>
-  </div>
-</section>
-
-<!-- CARDS / WORKS -->
-<section id="works" style="padding:120px 32px;position:relative;overflow:hidden">
-  <div style="max-width:1000px;margin:0 auto;position:relative;z-index:2">
-    <div class="reveal" style="text-align:center;margin-bottom:80px">
-      <h2 class="font-serif" style="font-size:clamp(36px,6vw,72px);line-height:1.05">
-        Define your<br><span style="font-style:italic">digital presence</span>
-      </h2>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-      <!-- Card 1: Red -->
-      <div class="reveal float-down" style="transition-delay:0ms">
-        <div style="background:var(--accent);border-radius:24px;padding:clamp(28px,4vw,48px);aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;transition:all .5s;cursor:pointer;box-shadow:0 20px 60px rgba(255,69,0,.15)" onmouseover="this.style.boxShadow='0 30px 80px rgba(255,69,0,.3)'" onmouseout="this.style.boxShadow='0 20px 60px rgba(255,69,0,.15)'">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px">&#9733;</div>
-            <span style="font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.2);padding:4px 12px;border-radius:999px;color:rgba(0,0,0,.7)">01</span>
+    <div style="position:relative">
+      <div style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.08),transparent);filter:blur(40px)"></div>
+        <div style="font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;font-weight:600">Bidang Kajian</div>
+        <div style="display:grid;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9881;</div>
+            <div>
+              <div style="font-size:13px;font-weight:500">Propulsi Kapal</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.3)">Screw propeller, waterjet, azimuth thruster</div>
+            </div>
           </div>
-          <div>
-            <h3 class="font-serif" style="font-size:clamp(28px,3.5vw,48px);color:#000;line-height:1;margin-bottom:12px;letter-spacing:-.02em">
-              Emerging<br>Talent
-            </h3>
-            <p style="font-size:15px;color:rgba(0,0,0,.65);line-height:1.5">You have the spark. We provide the atmosphere for it to ignite.</p>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9878;</div>
+            <div>
+              <div style="font-size:13px;font-weight:500">Mesin Marine</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.3)">Diesel engine, gas turbine, motor listrik</div>
+            </div>
           </div>
-          <div style="width:100%;height:1px;background:rgba(0,0,0,.1)"></div>
-        </div>
-      </div>
-
-      <!-- Card 2: Dark -->
-      <div class="reveal float-up" style="transition-delay:150ms;margin-top:60px">
-        <div style="background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:clamp(28px,4vw,48px);aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;transition:all .5s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)'">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.5)">&#9670;</div>
-            <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.4)">02</span>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9733;</div>
+            <div>
+              <div style="font-size:13px;font-weight:500">CFD &amp; EFD</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.3)">Computational &amp; Experimental Fluid Dynamics</div>
+            </div>
           </div>
-          <div>
-            <h3 class="font-serif" style="font-size:clamp(28px,3.5vw,48px);color:rgba(255,255,255,.9);line-height:1;margin-bottom:12px;letter-spacing:-.02em">
-              Digital<br>Rebirth
-            </h3>
-            <p style="font-size:15px;color:rgba(255,255,255,.4);line-height:1.5">We deconstruct to reconstruct. Every pixel serves a purpose.</p>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9889;</div>
+            <div>
+              <div style="font-size:13px;font-weight:500">Efisiensi Energi</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.3)">Green shipping, hybrid-electric propulsion</div>
+            </div>
           </div>
-          <div style="width:100%;height:1px;background:rgba(255,255,255,.06)"></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PROMPT BAR -->
-<div style="max-width:640px;margin:0 auto;padding:0 32px 80px">
-  <div class="reveal" style="display:flex;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03);transition:border-color .3s" onfocus-within="this.style.borderColor='var(--accent)'" id="promptWrap">
-    <input type="text" placeholder="describe the interface you need..." style="flex:1;background:transparent;border:none;outline:none;padding:16px 20px;color:#fff;font-size:14px;font-family:'Inter',sans-serif">
-    <button style="padding:16px 24px;background:var(--accent);color:#fff;border:none;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">generate</button>
-  </div>
-  <div class="reveal" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;transition-delay:100ms">
-    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#8599; from screenshot</button>
-    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#9673; from URL</button>
-    <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s" onmouseover="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.borderColor='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.4)'">&#8984; from figma</button>
   </div>
 </div>
+</section>
 
-<!-- SHOWCASE -->
-<section style="padding:0 32px 100px;max-width:1000px;margin:0 auto">
-  <div class="reveal" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
-    <h2 class="font-serif" style="font-size:24px;font-weight:500">Selected Works</h2>
-    <span style="font-size:12px;color:rgba(255,255,255,.3);font-family:monospace">1,847 designs</span>
+<!-- RESEARCH -->
+<section id="research" style="padding:100px 32px;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;z-index:0;pointer-events:none">
+  <div style="position:absolute;top:50%;left:50%;width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.04),transparent 60%);filter:blur(100px);transform:translate(-50%,-50%)"></div>
+</div>
+<div style="max-width:1100px;margin:0 auto;position:relative;z-index:2">
+  <div class="reveal" style="text-align:center;margin-bottom:60px">
+    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Riset &amp; Publikasi</div>
+    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Area Penelitian Aktif</h2>
   </div>
 
-  <div style="display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap" class="reveal">
-    <button style="padding:7px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">trending</button>
-    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">landing pages</button>
-    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">dashboards</button>
-    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">dark</button>
-    <button style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:rgba(255,255,255,.4);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif">minimal</button>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <!-- Research Card 1 -->
+    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9881;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Desain Propeller</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Analisis dan optimasi geometri screw propeller menggunakan vortex-lattice method dan panel method untuk kapal niaga dan kapal cepat.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">openwater test</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">cavitation</span>
+      </div>
+    </div>
+
+    <!-- Research Card 2 -->
+    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9878;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Marine Engine Performance</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Studi performa mesin diesel marine, analisis emisi gas buang, serta optimasi sistem bahan bakar untuk efisiensi konsumsi energi.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">diesel engine</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">emission</span>
+      </div>
+    </div>
+
+    <!-- Research Card 3 -->
+    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9889;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Hybrid-Electric Propulsion</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Pengembangan sistem propulsi hybrid dan full-electric untuk kapal ferry, tugboat, dan kapal survei dengan fokus zero-emission.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">battery</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">electric motor</span>
+      </div>
+    </div>
+
+    <!-- Research Card 4 -->
+    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9733;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">CFD Propulsion Analysis</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Simulasi CFD untuk self-propulsion test, wake fraction analysis, dan prediksi thrust deduction menggunakan RANS dan BEM.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">ANSYS</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">OpenFOAM</span>
+      </div>
+    </div>
+
+    <!-- Research Card 5 -->
+    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9730;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Vibrasi &amp; Noise Kapal</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Analisis getaran dan noise struktur kapal akibat excitasi propeller dan mesin, serta strategi mitigasi untuk kenyamanan awak.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">FFT analysis</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">mounting</span>
+      </div>
+    </div>
+
+    <!-- Research Card 6 -->
+    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9729;</div>
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Green Shipping Technology</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Riset teknologi ramah lingkungan: LNG fuel, wind-assisted propulsion, hull-propeller optimization untuk reduksi emisi CO2.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">IMO 2030</span>
+        <span style="padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);font-size:10px;color:rgba(255,255,255,.3)">EEXI</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FACILITIES -->
+<section id="facilities" style="padding:100px 32px;position:relative">
+<div style="max-width:1100px;margin:0 auto">
+  <div class="reveal" style="text-align:center;margin-bottom:60px">
+    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Fasilitas</div>
+    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Peralatan &amp; Infrastruktur</h2>
   </div>
 
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="grid">
-    <!-- JS will populate -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="reveal" style="background:var(--accent);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.boxShadow='0 30px 80px rgba(255,69,0,.25)'" onmouseout="this.style.boxShadow='none'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:20px">&#9881;</div>
+        <span style="font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.2);padding:4px 12px;border-radius:999px;color:rgba(0,0,0,.6)">Core Facility</span>
+      </div>
+      <div>
+        <h3 class="font-serif" style="font-size:28px;color:#000;line-height:1;margin-bottom:8px">Cavitation Tunnel</h3>
+        <p style="font-size:14px;color:rgba(0,0,0,.6)">Fasilitas uji terowongan kavitasi untuk eksperimen performa propeller dan analisis pola kavitasi pada berbagai kondisi operasi.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9878;</div>
+        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Engine Lab</span>
+      </div>
+      <div>
+        <h3 class="font-serif" style="font-size:28px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">Engine Test Bed</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.35)">Rig uji mesin diesel marine untuk pengukuran performa, konsumsi bahan bakar, dan emisi gas buang secara real-time.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9733;</div>
+        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Simulation</span>
+      </div>
+      <div>
+        <h3 class="font-serif" style="font-size:22px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">CFD Workstation</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,.35)">High-performance computing cluster untuk simulasi CFD propeller, hull resistance, dan self-propulsion menggunakan ANSYS CFX, OpenFOAM, dan Star-CCM+.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:300ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9889;</div>
+        <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Measurement</span>
+      </div>
+      <div>
+        <h3 class="font-serif" style="font-size:22px;color:rgba(255,255,255,.85);line-height:1;margin-bottom:8px">Vibration &amp; Noise Lab</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,.35)">Peralatan pengukuran getaran (accelerometer, FFT analyzer) dan sound level meter untuk analisis vibro-acoustic kapal.</p>
+      </div>
+    </div>
   </div>
+</div>
+</section>
+
+<!-- TEAM -->
+<section id="team" style="padding:100px 32px;position:relative">
+<div style="max-width:1100px;margin:0 auto">
+  <div class="reveal" style="text-align:center;margin-bottom:60px">
+    <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;font-weight:600">Tim Peneliti</div>
+    <h2 class="font-serif" style="font-size:clamp(28px,4vw,48px);color:rgba(255,255,255,.85);line-height:1.15">Dosen &amp; Peneliti</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+    <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">A</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Dr. Ir. A***</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Ketua Lab MPP</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">Propeller Design, CFD</div>
+    </div>
+    <div class="reveal" style="transition-delay:80ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">B</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Dr. Ir. B***</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Dosen Peneliti</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">Marine Engine, Emission</div>
+    </div>
+    <div class="reveal" style="transition-delay:160ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">C</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Dr. Ir. C***</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Dosen Peneliti</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">Vibration Analysis</div>
+    </div>
+    <div class="reveal" style="transition-delay:240ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;text-align:center;transition:all .3s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,69,0,.2),rgba(255,69,0,.05));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Playfair Display',serif;color:var(--accent)">D</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px">Dr. Ir. D***</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">Dosen Peneliti</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">Electric Propulsion</div>
+    </div>
+  </div>
+  <div class="reveal" style="text-align:center;margin-top:32px">
+    <p style="font-size:12px;color:rgba(255,255,255,.25);font-style:italic">* Nama dosen disamarkan — hubungi departemen untuk informasi lengkap</p>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:100px 32px;position:relative">
+<div style="max-width:700px;margin:0 auto">
+  <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:48px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-50%;right:-50%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,69,0,.06),transparent);filter:blur(60px)"></div>
+    <div style="position:relative">
+      <div style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;font-weight:600">Kontak</div>
+      <h2 class="font-serif" style="font-size:28px;color:rgba(255,255,255,.85);line-height:1.15;margin-bottom:24px">Hubungi Lab MPP</h2>
+      <div style="display:grid;gap:16px">
+        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9993;</div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Email</div>
+            <div style="font-size:14px;font-weight:500">jtsp@its.ac.id</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9742;</div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Telepon</div>
+            <div style="font-size:14px;font-weight:500">(031) 599 4251 ext. 1102, 1103</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9873;</div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Lokasi</div>
+            <div style="font-size:14px;font-weight:500">Gedung WA, Kampus ITS Sukolilo, Surabaya 60111</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </section>
 
 <!-- FOOTER -->
-<footer style="border-top:1px solid rgba(255,255,255,.06);padding:40px 32px;max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
-  <span style="font-size:12px;color:rgba(255,255,255,.25)">&copy; 2026 superdesign</span>
+<footer style="border-top:1px solid rgba(255,255,255,.06);padding:40px 32px;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
+  <div>
+    <span style="font-size:12px;color:rgba(255,255,255,.25)">&copy; 2026 Lab MPP — Departemen Teknik Sistem Perkapalan ITS</span>
+  </div>
   <div style="display:flex;gap:20px">
-    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">github</a>
-    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">twitter</a>
-    <a href="#" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s">discord</a>
+    <a href="https://www.its.ac.id/siskal/" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">DTSP ITS</a>
+    <a href="https://www.its.ac.id" style="font-size:12px;color:rgba(255,255,255,.3);transition:color .15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.3)'">ITS</a>
   </div>
 </footer>
 
 <script>
-// Card data
-const cards=[
-  {title:"portal hero, full-bleed reveal",views:"68K",bg:"linear-gradient(135deg,#FF4500,#b91c1c)",h:220,span:2},
-  {title:"red noir style",views:"87K",bg:"linear-gradient(135deg,#1a0505,#2d0a0a)",h:220,span:1},
-  {title:"glassmorphism",views:"157K",bg:"linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02))",h:200,span:1},
-  {title:"kinetic orange",views:"43K",bg:"linear-gradient(135deg,#FF4500,#f97316)",h:200,span:1},
-  {title:"mosaic architecture",views:"47K",bg:"repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.04) 10px,rgba(255,255,255,.04) 11px)",h:200,span:1},
-  {title:"ascii terminal art",views:"19K",bg:"linear-gradient(160deg,#0a0a0a,#1a1a1a)",h:220,span:2},
-  {title:"digital wellness",views:"45K",bg:"linear-gradient(135deg,#2d1515,#1a0a0a)",h:180,span:1},
-  {title:"high contrast",views:"245K",bg:"linear-gradient(135deg,#111,#0a0a0a)",h:180,span:1},
-  {title:"dev tool dark",views:"25K",bg:"radial-gradient(circle at 30% 50%,rgba(255,69,0,.08),transparent 60%)",h:180,span:1},
-];
-
-const grid=document.getElementById('grid');
-cards.forEach((c,i)=>{
-  const card=document.createElement('div');
-  card.className='reveal';
-  card.style.cssText=`grid-column:span ${c.span||1};transition-delay:${i*80}ms`;
-  card.innerHTML=`
-    <div style="position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:all .3s;height:${c.h}px;background:${c.bg}" 
-         onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-3px)'"
-         onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,.3);font-weight:500">${c.title}</div>
-      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;background:linear-gradient(transparent,rgba(5,5,5,.9));display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:12px;color:rgba(255,255,255,.5);font-weight:500">${c.title}</span>
-        <span style="font-size:10px;color:rgba(255,255,255,.25);font-family:monospace">${c.views} views</span>
-      </div>
-      <div style="position:absolute;top:10px;right:10px;opacity:0;transition:opacity .2s" class="card-ov">
-        <button style="padding:4px 12px;border-radius:6px;background:var(--accent);color:#fff;border:none;font-size:11px;font-weight:600;cursor:pointer">use</button>
-      </div>
-    </div>`;
-  card.querySelector('[style*="border-radius:14px"]').addEventListener('mouseover',function(){card.querySelector('.card-ov').style.opacity='1'});
-  card.querySelector('[style*="border-radius:14px"]').addEventListener('mouseout',function(){card.querySelector('.card-ov').style.opacity='0'});
-  grid.appendChild(card);
-});
-
 // Scroll reveal
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Clock
-function updClock(){const d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true})}
-updClock();setInterval(updClock,60000);
-
 // Nav scroll
 window.addEventListener('scroll',()=>{
   const nav=document.getElementById('nav');
-  nav.style.background=window.scrollY>80?'rgba(5,5,5,.9)':'transparent';
+  nav.style.background=window.scrollY>80?'rgba(5,5,5,.92)':'transparent';
   nav.style.backdropFilter=window.scrollY>80?'blur(16px)':'none';
   nav.style.borderBottom=window.scrollY>80?'1px solid rgba(255,255,255,.06)':'none';
 });
 
-// Tab switching
-document.querySelectorAll('#works~div button, [style*="trending"]').forEach(btn=>{
-  if(btn.parentElement&&btn.parentElement.style.display==='flex'){
-    btn.addEventListener('click',()=>{
-      btn.parentElement.querySelectorAll('button').forEach(b=>{
-        b.style.background='transparent';b.style.color='rgba(255,255,255,.4)';b.style.borderColor='rgba(255,255,255,.08)';b.style.border='1px solid rgba(255,255,255,.08)';
-      });
-      btn.style.background='var(--accent)';btn.style.color='#fff';btn.style.border='none';
-    });
-  }
+// Counter animation
+function animateCounter(id,target,duration){
+  const el=document.getElementById(id);
+  let start=0;const step=target/(duration/16);
+  function update(){start+=step;if(start>=target){el.textContent=target+'+';return}el.textContent=Math.floor(start)+'+';requestAnimationFrame(update)}
+  update();
+}
+const counterObs=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting){
+    animateCounter('counter1',45,1500);
+    animateCounter('counter2',12,1200);
+    animateCounter('counter3',18,1300);
+    counterObs.disconnect();
+  }});
+},{threshold:.5});
+counterObs.observe(document.getElementById('counter1'));
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
 });
 </script>
 </body>
