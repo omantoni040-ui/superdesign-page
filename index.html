@@ -62,6 +62,11 @@ footer{max-width:1180px!important;border-color:var(--line)!important}
 @media(max-width:760px){#navLinks{gap:12px}#navLinks a:nth-child(3),#navLinks a:nth-child(4){display:none}section{padding-left:20px!important;padding-right:20px!important}section>div>div[style*="grid-template-columns:1fr 1fr"],section>div>div[style*="grid-template-columns:repeat(3"],section>div>div[style*="grid-template-columns:repeat(4"]{grid-template-columns:1fr!important}.reveal[style*="margin-top:60px"]{gap:20px!important}}
 @media(max-width:480px){#navLinks a{display:none!important}#navLinks span{display:none!important}footer{flex-direction:column;gap:16px;text-align:center}}
 
+/* Premium line icon system — no emoji glyphs */
+.premium-icon{width:17px;height:17px;display:block;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;color:currentColor}
+#about .premium-icon,#research .premium-icon,#facilities .premium-icon,#contact .premium-icon{color:#111}
+#contact .premium-icon{color:#e45b35}
+
 /* Superdesign-inspired interface: quiet canvas, sharp typography, discovery-first */
 :root{--bg:#fcfcfb;--accent:#111;--card:#fff;--warm:#111;--line:#e8e8e5;--muted:#737373}
 *{box-sizing:border-box}
@@ -249,28 +254,28 @@ footer span,footer a{color:#777!important}
         <div style="font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;font-weight:600">Fokus Resmi Lab</div>
         <div style="display:grid;gap:12px">
           <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9881;</div>
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
             <div>
               <div style="font-size:13px;font-weight:500">Internal Combustion Engine</div>
               <div style="font-size:11px;color:rgba(255,255,255,.3)">Penggerak utama kapal dan sistem pendukungnya</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9878;</div>
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
             <div>
               <div style="font-size:13px;font-weight:500">Energi Terbarukan</div>
               <div style="font-size:11px;color:rgba(255,255,255,.3)">Biodiesel sebagai alternatif bahan bakar</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9733;</div>
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
             <div>
               <div style="font-size:13px;font-weight:500">Efisiensi &amp; Emisi</div>
               <div style="font-size:11px;color:rgba(255,255,255,.3)">Dual fuel dan pengendalian emisi gas buang</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px">&#9889;</div>
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:14px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
             <div>
               <div style="font-size:13px;font-weight:500">Reverse Engineering</div>
               <div style="font-size:11px;color:rgba(255,255,255,.3)">Peningkatan performance engine, getaran &amp; kebisingan</div>
@@ -316,7 +321,7 @@ footer span,footer a{color:#777!important}
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
     <!-- Research Card 1 -->
     <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9881;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Energi Terbarukan</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Pemanfaatan biodiesel sebagai alternatif bahan bakar pada sistem mesin kapal.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -327,7 +332,7 @@ footer span,footer a{color:#777!important}
 
     <!-- Research Card 2 -->
     <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9878;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Efisiensi Energi</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Pengembangan sistem dual fuel untuk meningkatkan efisiensi energi pada mesin kapal.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -338,7 +343,7 @@ footer span,footer a{color:#777!important}
 
     <!-- Research Card 3 -->
     <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9889;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Pengendalian Emisi</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Kajian lingkungan dan pengendalian emisi gas buang dari internal combustion engine kapal.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -349,7 +354,7 @@ footer span,footer a{color:#777!important}
 
     <!-- Research Card 4 -->
     <div class="reveal" style="background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9733;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Reverse Engineering</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Peningkatan performance engine melalui pendekatan reverse engineering pada sistem mesin kapal.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -360,7 +365,7 @@ footer span,footer a{color:#777!important}
 
     <!-- Research Card 5 -->
     <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9730;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16M7 18V7m5 11V4m5 14v-8M4 7h3M12 4h5"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Getaran &amp; Kebisingan</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Kajian getaran dan kebisingan yang dihasilkan oleh sistem mesin kapal.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -371,7 +376,7 @@ footer span,footer a{color:#777!important}
 
     <!-- Research Card 6 -->
     <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;cursor:pointer" onmouseover="this.style.borderColor='rgba(255,69,0,.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)';this.style.transform='none'">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px">&#9729;</div>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18h11a4 4 0 0 0 .5-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 0 9z"/></svg></div>
       <h3 style="font-size:15px;font-weight:600;margin-bottom:8px">Kegiatan Marine Diesel</h3>
       <p style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:16px">Praktikum motor bakar yang dilaksanakan setiap semester untuk mendukung mata kuliah Marine Diesel.</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -394,7 +399,7 @@ footer span,footer a{color:#777!important}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
     <div class="reveal" style="background:var(--accent);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.boxShadow='0 30px 80px rgba(255,69,0,.25)'" onmouseout="this.style.boxShadow='none'">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:20px">&#9881;</div>
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:20px"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V20h-2.6v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H6v-2.6h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v2.6h-.1a1.7 1.7 0 0 0-1.6 1z"/></svg></div>
         <span style="font-size:12px;font-weight:500;border:1px solid rgba(0,0,0,.2);padding:4px 12px;border-radius:999px;color:rgba(0,0,0,.6)">Core Facility</span>
       </div>
       <div>
@@ -405,7 +410,7 @@ footer span,footer a{color:#777!important}
 
     <div class="reveal" style="transition-delay:100ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;aspect-ratio:4/3;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9878;</div>
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="7"/></svg></div>
         <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Engine Lab</span>
       </div>
       <div>
@@ -416,7 +421,7 @@ footer span,footer a{color:#777!important}
 
     <div class="reveal" style="transition-delay:200ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9733;</div>
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div>
         <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Simulation</span>
       </div>
       <div>
@@ -427,7 +432,7 @@ footer span,footer a{color:#777!important}
 
     <div class="reveal" style="transition-delay:300ms;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:16px;cursor:pointer;transition:all .5s" onmouseover="this.style.borderColor='rgba(255,69,0,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.06)'">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)">&#9889;</div>
+        <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.5)"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z"/></svg></div>
         <span style="font-size:12px;font-weight:500;border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:999px;color:rgba(255,255,255,.35)">Measurement</span>
       </div>
       <div>
@@ -489,21 +494,21 @@ footer span,footer a{color:#777!important}
       <h2 class="font-serif" style="font-size:28px;color:rgba(255,255,255,.85);line-height:1.15;margin-bottom:24px">Hubungi Laboratorium</h2>
       <div style="display:grid;gap:16px">
         <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9993;</div>
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></div>
           <div>
             <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Email</div>
             <div style="font-size:14px;font-weight:500">jtsp@its.ac.id</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9742;</div>
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h3l1.5 4-2 1.5a14 14 0 0 0 5 5L16 12.5 20 14v3c0 1.1-.9 2-2 2C10.3 19 5 13.7 5 7a2 2 0 0 1 2-2z"/></svg></div>
           <div>
             <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Telepon</div>
             <div style="font-size:14px;font-weight:500">(031) 599 4251 ext. 1102, 1103</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.02)">
-          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">&#9873;</div>
+          <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,69,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><svg class="premium-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4m0 1h11l-2 3 2 3H5"/></svg></div>
           <div>
             <div style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:2px">Lokasi</div>
             <div style="font-size:14px;font-weight:500">Gedung WA, Kampus ITS Sukolilo, Surabaya 60111</div>
