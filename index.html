@@ -75,6 +75,33 @@
     .outline-number{-webkit-text-stroke-color:rgba(216,212,204,.18)!important}.border-amber{border-color:#a27a50!important}.border-bone{border-color:rgba(216,212,204,.22)!important}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
   </style>
+  <style>
+    /* Final eye-comfort palette: low-glare maritime charcoal */
+    :root{--eye-bg:#12181d;--eye-deep:#0e1419;--eye-panel:#192229;--eye-raised:#202b32;--eye-ink:#c9c8c2;--eye-body:#9ca8ae;--eye-muted:#78878f;--eye-brass:#aa7d50;--eye-teal:#557f84;--eye-line:#2c3941}
+    html{background:var(--eye-deep)!important}
+    body{background:var(--eye-bg)!important;color:var(--eye-ink)!important}
+    .bg-ground{background-color:var(--eye-bg)!important}
+    .bg-panel{background-color:var(--eye-panel)!important}
+    .text-bone{color:var(--eye-ink)!important}
+    .text-secondary{color:var(--eye-body)!important}
+    .text-muted{color:var(--eye-muted)!important}
+    .text-amber{color:var(--eye-brass)!important}
+    .text-teal{color:var(--eye-teal)!important}
+    .bg-amber{background-color:var(--eye-brass)!important}
+    .bg-teal{background-color:var(--eye-teal)!important}
+    nav{background:rgba(14,20,25,.94)!important;border-color:var(--eye-line)!important}
+    .portal-panel-left,.portal-panel-right{background-color:var(--eye-panel)!important;border-color:var(--eye-line)!important}
+    .portal-panel-left,.portal-panel-right{opacity:.94}
+    #portal-stage>div:first-child>img{opacity:.09!important;filter:grayscale(1) saturate(.18) brightness(.72)!important}
+    #portal-stage>div:first-child>.bg-teal{opacity:.06!important}
+    .hero-emblem img{opacity:.82;filter:saturate(.58) brightness(.88) contrast(.9)!important}
+    #statement img{filter:grayscale(.25) saturate(.42) brightness(.78) contrast(.9)!important}
+    .deck-card{background-color:var(--eye-raised)!important;border-color:#3a4850!important;box-shadow:0 14px 30px rgba(0,0,0,.2)!important}
+    .outline-number{-webkit-text-stroke-color:rgba(201,200,194,.16)!important}
+    .border-amber{border-color:#8e6848!important}
+    a:focus-visible,button:focus-visible{outline-color:var(--eye-teal)!important}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
 </head>
 <body>
   <div class="min-h-screen overflow-x-hidden bg-ground font-sora text-bone antialiased">
