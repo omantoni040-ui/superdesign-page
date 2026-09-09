@@ -32,6 +32,35 @@
     @media(max-width:767px){.portal-panel-left{transform:translateX(calc(var(--portal) * -54vw))}.portal-panel-right{transform:translateX(calc(var(--portal) * 54vw))}.word-left{transform:translateX(calc(var(--spread) * -4vw)) scale(var(--title-scale))}.word-right{transform:translateX(calc(var(--spread) * 4vw)) scale(var(--title-scale))}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.portal-panel-left,.portal-panel-right,.word-left,.word-right,.hero-emblem,.reveal,.deck-card{transition:none!important}.reveal{opacity:1;transform:none}}
   </style>
+  <style>
+    /* Calm maritime palette: lower glare, softer hierarchy, clearer surfaces */
+    :root{--calm-main:#10151a;--calm-deep:#0c1115;--calm-alt:#141b21;--calm-panel:#1a2229;--calm-raised:#202a31;--calm-heading:#d8d3c9;--calm-body:#a9b4bd;--calm-muted:#7f8d97;--calm-faint:#68757e;--calm-brass:#c58a4b;--calm-brass-soft:#a87543;--calm-teal:#4b8790;--calm-line:#29343c;--calm-line-strong:#35434c}
+    html{background:var(--calm-deep)!important}
+    body{background:var(--calm-main)!important;color:var(--calm-heading)!important}
+    .bg-ground{background-color:var(--calm-main)!important}
+    .bg-panel{background-color:var(--calm-alt)!important}
+    .text-bone{color:var(--calm-heading)!important}
+    .text-secondary{color:var(--calm-body)!important}
+    .text-muted{color:var(--calm-muted)!important}
+    .text-amber{color:var(--calm-brass)!important}
+    .text-teal{color:var(--calm-teal)!important}
+    .bg-amber{background-color:var(--calm-brass)!important}
+    .bg-teal{background-color:var(--calm-teal)!important}
+    .border-amber{border-color:var(--calm-brass-soft)!important}
+    .border-bone{border-color:rgba(216,211,201,.28)!important}
+    .border-[rgba\(237\,231\,220\,.13\)]{border-color:var(--calm-line)!important}
+    nav{background:rgba(12,17,21,.88)!important;border-color:var(--calm-line)!important}
+    .portal-panel-left,.portal-panel-right{background-color:var(--calm-panel)!important;border-color:var(--calm-line)!important}
+    .deck-card{background-color:var(--calm-panel)!important;border-color:var(--calm-line-strong)!important;box-shadow:0 18px 40px rgba(0,0,0,.18)!important}
+    .outline-number{-webkit-text-stroke-color:rgba(216,211,201,.22)!important}
+    .hero-emblem img{filter:saturate(.78) contrast(.94)!important}
+    #statement img{filter:saturate(.55) sepia(.08) contrast(.94)!important}
+    #contact{background-color:var(--calm-alt)!important}
+    #contact .text-bone{color:var(--calm-heading)!important}
+    #contact .border-amber{border-color:var(--calm-brass-soft)!important}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--calm-teal);outline-offset:4px}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
 </head>
 <body>
   <div class="min-h-screen overflow-x-hidden bg-ground font-sora text-bone antialiased">
