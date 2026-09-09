@@ -163,8 +163,14 @@
 
           <div class="reveal">
             <div class="mb-5 flex items-end justify-between border-b border-[rgba(237,231,220,.13)] pb-4">
-              <div><p class="text-[10px] uppercase tracking-[.18em] text-secondary">Dek topik resmi</p><p class="mt-2 text-xs text-muted">Geser kartu atau gunakan tombol panah kiri dan kanan</p></div>
-              <span id="deck-counter" class="font-syne text-xl text-amber">01 / 06</span>
+              <div><p class="text-[10px] uppercase tracking-[.18em] text-secondary">Dek topik resmi</p><p class="mt-2 text-xs text-muted">Geser kartu atau gunakan tombol panah</p></div>
+              <div class="flex items-center gap-4">
+                <span id="deck-counter" class="font-syne text-xl text-amber">01 / 06</span>
+                <div class="flex gap-1">
+                  <button id="deck-prev" type="button" aria-label="Topik sebelumnya" class="flex h-9 w-9 items-center justify-center border border-[rgba(237,231,220,.18)] text-bone transition hover:border-amber hover:text-amber disabled:cursor-not-allowed disabled:opacity-30">←</button>
+                  <button id="deck-next" type="button" aria-label="Topik berikutnya" class="flex h-9 w-9 items-center justify-center border border-[rgba(237,231,220,.18)] text-bone transition hover:border-amber hover:text-amber disabled:cursor-not-allowed disabled:opacity-30">→</button>
+                </div>
+              </div>
             </div>
             <div id="research-deck" class="relative h-[420px] md:h-[470px]" aria-label="Dek interaktif topik penelitian">
               <article class="deck-card absolute inset-0 cursor-grab border border-[rgba(237,231,220,.18)] bg-[#15191D] p-7 shadow-[0_26px_60px_rgba(0,0,0,.38)] md:p-10" tabindex="0" role="button" aria-label="Biodiesel. Kartu 1 dari 6" data-index="0"><span class="text-[10px] uppercase tracking-[.2em] text-amber">01 / Energi terbarukan</span><h3 class="mt-16 font-syne text-[48px] font-semibold tracking-[-.05em] md:text-[70px]">Biodiesel</h3><p class="mt-6 max-w-lg text-sm leading-7 text-secondary">Pemanfaatan biodiesel sebagai alternatif bahan bakar pada sistem mesin kapal.</p><div class="absolute inset-x-7 bottom-7 flex justify-between border-t border-[rgba(237,231,220,.13)] pt-4 text-[9px] uppercase tracking-[.16em] text-muted md:inset-x-10 md:bottom-10"><span>Marine diesel</span><span>FTK — ITS</span></div></article>
@@ -239,6 +245,8 @@
     const counter=document.getElementById('deck-counter');
     let cards=[...deck.querySelectorAll('.deck-card')];
     let active=null,startX=0,startY=0,currentX=0,currentY=0;
+    const previousButton=document.getElementById('deck-prev');
+    const nextButton=document.getElementById('deck-next');
     function layoutDeck(){
       cards.forEach((card,i)=>{
         const depth=cards.length-1-i;
@@ -249,7 +257,10 @@
         card.setAttribute('aria-hidden',i===cards.length-1?'false':'true');
       });
       const top=cards[cards.length-1];
-      counter.textContent=String(Number(top.dataset.index)+1).padStart(2,'0')+' / 06';
+      const index=Number(top.dataset.index);
+      counter.textContent=String(index+1).padStart(2,'0')+' / 06';
+      previousButton.disabled=cards.length===1;
+      nextButton.disabled=cards.length===1;
     }
     function restack(direction){
       const top=cards.pop();
@@ -269,6 +280,8 @@
     function release(){if(!active)return;active.classList.remove('dragging');const direction=currentX<0?-1:1;if(Math.abs(currentX)>90)restack(direction);else layoutDeck();active=null}
     deck.addEventListener('pointerup',release);deck.addEventListener('pointercancel',release);
     deck.addEventListener('keydown',event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();restack(event.key==='ArrowLeft'?-1:1)}});
+    previousButton.addEventListener('click',()=>restack(-1));
+    nextButton.addEventListener('click',()=>restack(1));
     layoutDeck();
   </script>
 </body>
