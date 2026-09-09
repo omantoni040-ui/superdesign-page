@@ -146,6 +146,30 @@ footer{max-width:none!important;background:#111!important;border-top:1px solid #
 footer span,footer a{color:#777!important}
 @media(max-width:760px){#about>div>div:nth-child(2),#research>div>div:nth-child(2){grid-template-columns:1fr!important;gap:24px!important}#research>div>div:nth-child(3){grid-template-columns:1fr!important}#team>div>div:nth-child(2){grid-template-columns:repeat(2,1fr)!important}#facilities>div>div:nth-child(2){grid-template-columns:1fr!important}}
 @media(max-width:480px){#navLinks a{display:none!important}#team>div>div:nth-child(2){grid-template-columns:1fr!important}}
+
+/* Final live composition: compact premium editorial rhythm */
+:root{--live-bg:#0a0c0e;--live-panel:#101317;--live-ink:#ede7dc;--live-muted:#9ea5a8;--live-amber:#e8913c;--live-teal:#2e6b72;--live-rule:rgba(237,231,220,.13)}
+body{background:var(--live-bg)!important;color:var(--live-ink)!important}
+body:before{content:'';position:fixed;inset:0;z-index:-2;background:url('assets/mpp-emblem.jpg') 82% 10%/min(620px,52vw) auto no-repeat;opacity:.045;filter:grayscale(1) contrast(.8);pointer-events:none}
+body:after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,12,14,.98),rgba(10,12,14,.82) 58%,rgba(10,12,14,.7));pointer-events:none}
+#nav{height:58px!important;background:rgba(10,12,14,.78)!important;border-bottom:1px solid var(--live-rule)!important}
+section:first-of-type{min-height:88vh!important;padding:112px 32px 64px!important;background:transparent!important}
+section:first-of-type>div:last-child{max-width:960px!important}
+section:first-of-type h1{font-size:clamp(42px,7vw,78px)!important;letter-spacing:-.065em!important}
+section:first-of-type p{max-width:570px!important;margin-top:22px!important;font-size:15px!important}
+section:first-of-type [style*="margin-top:60px"]{display:none!important}
+#about,#research,#facilities,#team,#contact{padding:72px 32px!important;border-top:1px solid var(--live-rule)!important;background:transparent!important}
+#about>div>div:first-child,#research>div>div:first-child,#facilities>div>div:first-child,#team>div>div:first-child{margin-bottom:28px!important}
+#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:24px!important}
+#research>div>div:nth-child(3){margin-top:24px!important;gap:12px!important}
+#facilities>div>div:nth-child(2){gap:12px!important}
+#team>div>div:nth-child(2){gap:8px!important}
+#about>div>div:nth-child(2)>div:nth-child(2)>div,#research>div>div:nth-child(2)>div,#research>div>div:nth-child(3)>div,#facilities>div>div:nth-child(2)>div,#team>div>div:nth-child(2)>div{background:rgba(16,19,23,.86)!important;border-color:var(--live-rule)!important;box-shadow:none!important}
+#research img{max-height:240px!important}
+#facilities>div>div:nth-child(2)>div{min-height:190px!important}
+#contact{padding-top:64px!important;padding-bottom:64px!important}
+footer{background:var(--live-bg)!important;border-color:var(--live-rule)!important}
+@media(max-width:760px){section:first-of-type{min-height:78vh!important;padding:100px 20px 48px!important}#about,#research,#facilities,#team,#contact{padding:56px 20px!important}#about>div>div:nth-child(2),#research>div>div:nth-child(2){gap:18px!important}}
 </style>
 </head>
 <body>
