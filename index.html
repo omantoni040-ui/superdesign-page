@@ -102,6 +102,31 @@
     a:focus-visible,button:focus-visible{outline-color:var(--eye-teal)!important}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
   </style>
+  <style>
+    /* Controlled motion layer: editorial entrance, tactile controls, no decorative noise */
+    @keyframes mpp-fade-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    @keyframes mpp-line-in{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
+    @keyframes mpp-mark-in{from{opacity:0;transform:scale(.86) rotate(-4deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+    body:not(.motion-ready) .hero-emblem{opacity:0}
+    body.motion-ready .hero-emblem{animation:mpp-mark-in .9s cubic-bezier(.22,1,.36,1) .2s both}
+    body:not(.motion-ready) #portal-stage h1,body:not(.motion-ready) #portal-stage p{opacity:0}
+    body.motion-ready #portal-stage h1{animation:mpp-fade-rise .9s cubic-bezier(.22,1,.36,1) .42s both}
+    body.motion-ready #portal-stage p{animation:mpp-fade-rise .75s cubic-bezier(.22,1,.36,1) .58s both}
+    body.motion-ready #portal-stage .absolute.bottom-8{animation:mpp-fade-rise .7s cubic-bezier(.22,1,.36,1) .78s both}
+    body.motion-ready #nav-brand-link,body.motion-ready #nav-statement-link,body.motion-ready #nav-research-link,body.motion-ready #nav-roster-link,body.motion-ready #nav-information-link,body.motion-ready #nav-contact-link{animation:mpp-fade-rise .55s ease-out both}
+    body.motion-ready #nav-brand-link{animation-delay:.05s}body.motion-ready #nav-statement-link{animation-delay:.1s}body.motion-ready #nav-research-link{animation-delay:.14s}body.motion-ready #nav-roster-link{animation-delay:.18s}body.motion-ready #nav-information-link{animation-delay:.22s}body.motion-ready #nav-contact-link{animation-delay:.26s}
+    #official-roadmap-link{position:relative;transition:color .25s ease,padding-left .25s ease}
+    #official-roadmap-link:hover{padding-left:8px}
+    #official-roadmap-link:after{content:'';position:absolute;left:0;bottom:-1px;width:100%;height:1px;background:var(--soft-brass,#b98a59);transform:scaleX(.35);transform-origin:left;transition:transform .35s ease}
+    #official-roadmap-link:hover:after{transform:scaleX(1)}
+    #research-deck{perspective:1000px}
+    .deck-card{will-change:transform,opacity}
+    .deck-card:focus-visible{outline:2px solid var(--soft-teal,#5f8990);outline-offset:5px}
+    #deck-prev,#deck-next{transition:transform .22s ease,background-color .22s ease,border-color .22s ease,color .22s ease}
+    #deck-prev:hover,#deck-next:hover{transform:translateY(-2px);background:rgba(185,138,89,.12)}
+    #deck-prev:active,#deck-next:active{transform:translateY(0) scale(.96)}
+    @media(prefers-reduced-motion:reduce){body:not(.motion-ready) .hero-emblem,body:not(.motion-ready) #portal-stage h1,body:not(.motion-ready) #portal-stage p{opacity:1}body.motion-ready #portal-stage h1,body.motion-ready #portal-stage p,body.motion-ready .hero-emblem,body.motion-ready #nav-brand-link,body.motion-ready #nav-statement-link,body.motion-ready #nav-research-link,body.motion-ready #nav-roster-link,body.motion-ready #nav-information-link,body.motion-ready #nav-contact-link{animation:none!important}#official-roadmap-link,#deck-prev,#deck-next{transition:none!important}}
+  </style>
 </head>
 <body>
   <div class="min-h-screen overflow-x-hidden bg-ground font-sora text-bone antialiased">
@@ -250,6 +275,7 @@
 
   <script>
     const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.body.classList.add('motion-ready');
     const portal=document.getElementById('home');
     function updatePortal(){
       if(reduceMotion){document.documentElement.style.setProperty('--portal','1');document.documentElement.style.setProperty('--spread','1');document.documentElement.style.setProperty('--title-scale','.84');return}
